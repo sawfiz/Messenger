@@ -55,7 +55,7 @@ export default function Home() {
       // Save the JWT token in localStorage
       const token = response.data.token;
       localStorage.setItem('token', token);
-      navigate('/chat');
+      navigate('/chats');
     }
   };
 

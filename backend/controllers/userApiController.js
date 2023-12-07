@@ -59,20 +59,7 @@ const validateInputs = () => {
 exports.users_list = [
   verifyJWT,
   asyncHandler(async (req, res, next) => {
-    const role = req.query.role;
-    let query = {}; // Define an empty query object
-
-    // If the 'role' query parameter exists, add it to the query object
-    if (role) {
-      query = { role }; // This assumes 'role' field exists in your User schema
-    }
-
-    const users_list = await User.find(
-      query,
-      'first_name last_name username gender active'
-    )
-      .sort({ username: 1 })
-      .exec();
+    const users_list = await User.find({}, '').sort({ username: 1 }).exec();
     res.status(200).json({ users_list });
   }),
 ];
@@ -98,7 +85,10 @@ exports.user_create_post = [
   validateInputs(),
   asyncHandler(async (req, res, next) => {
     const validationErrors = validationResult(req);
-    console.log("🚀 ~ file: userApiController.js:101 ~ asyncHandler ~ validationErrors:", validationErrors)
+    console.log(
+      '🚀 ~ file: userApiController.js:101 ~ asyncHandler ~ validationErrors:',
+      validationErrors
+    );
 
     if (!validationErrors.isEmpty()) {
       throw new CustomError(400, JSON.stringify(validationErrors));
