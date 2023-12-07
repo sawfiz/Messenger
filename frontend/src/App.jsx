@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import MessageWindow from './components/MessageWindow';
+
 import ChatWindow from './components/ChatWindow';
 
 function App() {
@@ -12,7 +12,6 @@ function App() {
   return (
     <>
       <ChatWindow />
-      <MessageWindow />
     </>
   );
 }
