@@ -1,6 +1,8 @@
 require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
+const session = require('express-session');
+const passport = require('passport');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -14,7 +16,7 @@ const apiMessageRouter = require('./routes/api_messages');
 
 // Utility modules
 const { connectToMongoDB } = require('./utils/mongooseConnection');
-// const configPassport = require('./utils/configPassport');
+const configPassport = require('./utils/configPassport');
 const globalErrorHandler = require('./utils/globalErrorHandler');
 
 // Main program
@@ -23,6 +25,20 @@ app.use(cors()); // Enable CORS for all routes
 
 // Set up mongoose connection and monitor errors
 connectToMongoDB();
+
+// Make sure to add SESSION_SECRET in .env
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+// Place after the session middleware but before view set up
+configPassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

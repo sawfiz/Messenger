@@ -2,7 +2,12 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-// import { AuthContext } from '../contexts/AuthContext';
+import httpRequest  from '../utils/apiServices';
+
+// Contexts
+import { AuthContext } from '../contexts/AuthContext';
+import { useModal, InfoModal } from '../contexts/ModalContext';
+import { useNavigate } from 'react-router-dom';
 
 // Components
 // import Login from '../components/user/Login';
@@ -11,8 +16,11 @@ import { Link } from 'react-router-dom';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 
 export default function Home() {
-  // const { isLoggedIn, name } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
+  const { showModal, closeModal } = useModal();
 
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -23,9 +31,32 @@ export default function Home() {
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add login functionality here using formData
+    setLoading(true)
+    const response = await httpRequest('POST', '/login', formData );
+    setLoading(false)
+
+    if (response.error) {
+      // Handle error and show modal
+      showModal(
+        <InfoModal
+          show={true}
+          handleClose={closeModal}
+          title={response.error}
+          body={response.message}
+          primaryAction={closeModal}
+        />
+      );
+    } else {
+      // Set response and the user's name in the AuthContext
+      const name = response.data.user.name;
+      login(name);
+      // Save the JWT token in localStorage
+      const token = response.data.token;
+      localStorage.setItem('token', token);
+      navigate('/chat');
+    }
   };
 
   return (
