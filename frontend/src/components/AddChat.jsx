@@ -14,12 +14,18 @@ export default function AddChat() {
     setBuddies(filteredList);
   };
 
+  const handleClick = async () => {
+    console.log(buddies);
+    const response = await httpRequest('POST', '/api/chats', buddies)
+    console.log("🚀 ~ file: AddChat.jsx:20 ~ handleClick ~ response:", response)
+  }
+
   return (
     <div>
       <div className="my-2 mx-4 h-8 flex justify-between items-center ">
         <h1 className="my-auto">New chat</h1>
       </div>
-      <div className='mx-4'>
+      <div className="mx-4">
         <DynamicList
           fetchDataFunction={() => httpRequest('GET', '/api/users')}
           dataKey="users"
@@ -29,6 +35,9 @@ export default function AddChat() {
           showCheckboxes={true}
           showFilter={true}
         />
+      </div>
+      <div className='m-4 flex justify-center'>
+        <button className="btn btn-primary w-20" onClick={handleClick}>OK</button>
       </div>
     </div>
   );
