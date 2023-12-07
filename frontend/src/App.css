@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Styles for the message bubble container */
+.message-bubble {
+  display: inline-block; /* Display as an inline block to adjust to the length of text */
+  padding: 8px 12px; /* Padding around the message content */
+  margin: 4px; /* Margin between message bubbles */
+  border-radius: 8px; /* Rounded corners for the bubble */
+  background-color: #dcf8c6; /* Background color for the bubble */
+  word-wrap: break-word; /* Enable word wrap for long messages */
+  max-width: 70%; /* Maximum width of the message bubble */
+  min-width: 250px; /* Minimum width of the message bubble for short messages */
+  /* Other styles for positioning and appearance */
+}
+
+/* Styles for the message content */
+.message-content {
+  margin: 0; /* Reset margin */
+  font-size: 14px; /* Font size for the message */
+  /* Other styles for text appearance */
+}

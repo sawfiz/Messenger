@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import httpRequest from '../utils/apiServices';
 
 import MessageWindow from './MessageWindow';
+import Message from './Message';
 
 export default function ChatWindow() {
   const [data, setData] = useState([]);
@@ -24,7 +25,7 @@ export default function ChatWindow() {
   }, []);
 
   const messageList = data.map((message) => (
-    <div key={message._id}>{message.text}</div>
+    <Message key={message._id} text={message.text}/>
   ));
 
   // Pass into MessageWindow, called when a new message is sent
