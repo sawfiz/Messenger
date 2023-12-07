@@ -15,7 +15,7 @@ const apiMessageRouter = require('./routes/api_messages');
 // Utility modules
 const { connectToMongoDB } = require('./utils/mongooseConnection');
 // const configPassport = require('./utils/configPassport');
-// const globalErrorHandler = require('./utils/globalErrorHandler');
+const globalErrorHandler = require('./utils/globalErrorHandler');
 
 // Main program
 var app = express();
@@ -44,15 +44,7 @@ app.use(function (req, res, next) {
   next(createError(404));
 });
 
-// error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+// The last middleware to execute, the global error handler
+app.use(globalErrorHandler);
 
 module.exports = app;

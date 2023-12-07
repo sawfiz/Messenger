@@ -98,6 +98,7 @@ exports.user_create_post = [
   validateInputs(),
   asyncHandler(async (req, res, next) => {
     const validationErrors = validationResult(req);
+    console.log("🚀 ~ file: userApiController.js:101 ~ asyncHandler ~ validationErrors:", validationErrors)
 
     if (!validationErrors.isEmpty()) {
       throw new CustomError(400, JSON.stringify(validationErrors));

@@ -12,7 +12,7 @@ import httpRequest from '../utils/apiServices';
 // Styling
 import { Button, Form, Row, Col, InputGroup } from 'react-bootstrap';
 
-const UserForm = ({ title }) => {
+const UserForm = ({ action }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { logout } = useContext(AuthContext);
@@ -20,7 +20,6 @@ const UserForm = ({ title }) => {
 
   // State variables
   const [loading, setLoading] = useState(true);
-
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -30,7 +29,6 @@ const UserForm = ({ title }) => {
   });
 
   const [match, setMatch] = useState(true);
-  const [errorMsg, setErrorMsg] = useState(null);
   const [validationErrors, setValidationErrors] = useState([]);
 
   // If an id is provided in the route, GET data of the user
@@ -66,7 +64,6 @@ const UserForm = ({ title }) => {
         primaryAction={response.status === 403 ? handleLogout : closeModal}
       />
     );
-    setErrorMsg(`${response.error} ${response.errorMsg}`);
   };
 
   // Logout if token expired
@@ -188,7 +185,7 @@ const UserForm = ({ title }) => {
   };
 
   const handleCancel = () => {
-    if (title === 'Create') {
+    if (action === 'Create') {
       navigate('/');
     }
     navigate(`/users/${id}`);
@@ -211,7 +208,7 @@ const UserForm = ({ title }) => {
         className="p-4 rounded bg-white shadow"
         style={{ maxWidth: '360px', width: '100%' }}
       >
-        <h2 className="mb-4">{title} User</h2>
+        <h2 className="mb-4">{action} User</h2>
         <Form onSubmit={handleSubmit}>
           <Form.Group as={Row} controlId="formFirstname">
             <Form.Label column sm="4">
@@ -247,7 +244,7 @@ const UserForm = ({ title }) => {
           </Form.Group>
           {showValidationError('last_name')}
 
-          {title === 'Create' && (
+          {action === 'Create' && (
             <div>
               <hr />
 
@@ -307,7 +304,7 @@ const UserForm = ({ title }) => {
               )}
             </div>
           )}
-          {title === 'Update' && (
+          {action === 'Update' && (
             <div>
               <div className="flex justify-between w-80 items-center mb-2">
                 <div>
@@ -332,7 +329,7 @@ const UserForm = ({ title }) => {
             <Button variant="secondary" type="cancel" onClick={handleCancel}>
               Cancel
             </Button>
-            <Button type="submit">{title}</Button>
+            <Button type="submit">{action}</Button>
           </div>
         </Form>
       </div>
