@@ -20,7 +20,7 @@ const message_api_controller = require('../controllers/messageApiController');
 /* message requests */
 // GET request for list of all messages
 // !Make sure /all route is place before /:id
-// router.get('/', message_api_controller.messages_list);
+router.get('/', message_api_controller.messages_list);
 
 // GET request for one message.
 // router.get('/:id', message_api_controller.message_detail);
