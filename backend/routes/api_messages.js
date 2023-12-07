@@ -22,9 +22,6 @@ const message_api_controller = require('../controllers/messageApiController');
 // !Make sure /all route is place before /:id
 router.get('/', message_api_controller.messages_list);
 
-// GET request for one message.
-// router.get('/:id', message_api_controller.message_detail);
-
 // POST request for creating message.
 // router.post(
 //   '/',
@@ -32,17 +29,5 @@ router.get('/', message_api_controller.messages_list);
 //   message_api_controller.message_create_post
 // );
 router.post('/', message_api_controller.message_create_post)
-
-// PUT request to update message.
-// router.put(
-//   '/:id',
-//   upload.single('avatar'),
-//   message_api_controller.message_update
-// );
-
-// DELETE request to delete message.
-// router.delete('/:id', message_api_controller.message_delete);
-
-/* Parents requests */
 
 module.exports = router;

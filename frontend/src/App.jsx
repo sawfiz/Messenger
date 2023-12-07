@@ -1,17 +1,16 @@
-import { useState } from 'react';
+// Libraries
+import { RouterProvider } from 'react-router-dom';
+
+// Config
+import router from './routing/Router';
 
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
-import ChatWindow from './components/ChatWindow';
-
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      <ChatWindow />
+      <RouterProvider router={router}></RouterProvider>
     </>
   );
 }

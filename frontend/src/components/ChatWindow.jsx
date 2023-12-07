@@ -35,7 +35,7 @@ export default function ChatWindow() {
   };
 
   return (
-    <div className='flex flex-col h-screen'>
+    <div className='flex flex-col' style={{ height: `calc(100vh - 1.4rem)` }}>
       <div className="overflow-y-auto flex-1 p-2">{messageList}</div>
       <div className='h-2rem'>
         <MessageWindow onSendMessage={handleSendMessage} />
