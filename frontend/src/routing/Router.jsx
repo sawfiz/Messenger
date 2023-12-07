@@ -11,7 +11,7 @@ import RootLayout from './RootLayout';
 
 // Page components
 import Home from '../pages/Home';
-// import Signup from '../components/user/Signup';
+import Signup from '../components/Signup';
 // import Login from '../components/user/Login';
 // import Logout from '../components/user/Logout';
 import Chat from '../components/ChatWindow'
@@ -20,7 +20,7 @@ import Chat from '../components/ChatWindow'
 const routes = createRoutesFromElements(
   <Route path="/" element={<RootLayout />}>
     <Route index element={<Home />} />
-    {/* <Route path="/signup" element={<Signup />} /> */}
+    <Route path="/signup" element={<Signup />} />
     {/* <Route path="/login" element={<Login />} /> */}
     <Route path="/chat" element={<Chat />} />
 
