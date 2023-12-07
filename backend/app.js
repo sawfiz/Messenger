@@ -1,13 +1,27 @@
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cors = require('cors');
 
+// Routes
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const apiMessageRouter = require('./routes/api_messages');
 
+// Utility modules
+const { connectToMongoDB } = require('./utils/mongooseConnection');
+// const configPassport = require('./utils/configPassport');
+const globalErrorHandler = require('./utils/globalErrorHandler');
+
+// Main program
 var app = express();
+app.use(cors()); // Enable CORS for all routes
+
+// Set up mongoose connection and monitor errors
+connectToMongoDB();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,14 +35,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/api/messages', apiMessageRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

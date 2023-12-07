@@ -6,7 +6,7 @@ import httpRequest from '../utils/apiServices'
 import { Button, Form, InputGroup } from 'react-bootstrap';
 
 export default function MessageWindow() {
-  const [formData, setFormData] = useState({ message: '', date: null });
+  const [formData, setFormData] = useState({ text: '', date: null });
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -34,14 +34,15 @@ export default function MessageWindow() {
           <InputGroup>
             <Form.Control
               type="text"
+              name="text"
               placeholder="Message..."
               value={FormData.message}
               onChange={handleChange}
               autoFocus
             />
-            <button className='btn btn-primary' type="submit">
+            <Button type="submit">
               Send
-            </button>
+            </Button>
           </InputGroup>
         </Form>
       </div>
