@@ -34,9 +34,11 @@ export default function ChatWindow() {
   };
 
   return (
-    <div>
-      <div className="w-full h-40">{messageList}</div>
-      <MessageWindow onSendMessage={handleSendMessage} />
+    <div className='flex flex-col h-screen'>
+      <div className="overflow-y-auto flex-1 p-2">{messageList}</div>
+      <div className='h-2rem'>
+        <MessageWindow onSendMessage={handleSendMessage} />
+      </div>
     </div>
   );
 }
