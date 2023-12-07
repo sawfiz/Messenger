@@ -22,11 +22,11 @@ const UserForm = ({ title }) => {
   const [loading, setLoading] = useState(true);
 
   const [formData, setFormData] = useState({
+    first_name: '',
+    last_name: '',
     username: '',
     password1: '',
     password2: '',
-    first_name: '',
-    last_name: '',
   });
 
   const [match, setMatch] = useState(true);
@@ -221,9 +221,10 @@ const UserForm = ({ title }) => {
               <Form.Control
                 type="text"
                 placeholder="Usain"
-                name="firstname"
+                name="first_name"
                 value={formData.first_name}
                 onChange={handleChange}
+                required
               />
             </Col>
           </Form.Group>
@@ -237,9 +238,10 @@ const UserForm = ({ title }) => {
               <Form.Control
                 type="text"
                 placeholder="Bolt"
-                name="lastname"
+                name="last_name"
                 value={formData.last_name}
                 onChange={handleChange}
+                required
               />
             </Col>
           </Form.Group>
@@ -256,10 +258,11 @@ const UserForm = ({ title }) => {
                 <Col sm="8">
                   <Form.Control
                     type="text"
-                    placeholder="Bolt"
-                    name="lastname"
+                    placeholder="ubolt"
+                    name="username"
                     value={formData.username}
                     onChange={handleChange}
+                    required
                   />
                 </Col>
               </Form.Group>
@@ -326,10 +329,10 @@ const UserForm = ({ title }) => {
             </div>
           )}
           <div className="flex justify-around mt-4">
-            <Button type="submit">{title}</Button>
             <Button variant="secondary" type="cancel" onClick={handleCancel}>
               Cancel
             </Button>
+            <Button type="submit">{title}</Button>
           </div>
         </Form>
       </div>
