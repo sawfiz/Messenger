@@ -128,7 +128,7 @@ const UserForm = ({ title }) => {
     } else {
       // Handle success, reset form, or navigate to a different page
       console.log('user created successfully:', response);
-      navigate('/login');
+      navigate('/');
     }
   };
 
@@ -208,7 +208,7 @@ const UserForm = ({ title }) => {
       }}
     >
       <div
-        className="py-4 px-2 rounded bg-white shadow"
+        className="p-4 rounded bg-white shadow"
         style={{ maxWidth: '360px', width: '100%' }}
       >
         <h2 className="mb-4">{title} User</h2>

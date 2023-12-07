@@ -9,12 +9,13 @@ const cors = require('cors');
 // Routes
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const apiUserRouter = require('./routes/api_users');
 const apiMessageRouter = require('./routes/api_messages');
 
 // Utility modules
 const { connectToMongoDB } = require('./utils/mongooseConnection');
 // const configPassport = require('./utils/configPassport');
-const globalErrorHandler = require('./utils/globalErrorHandler');
+// const globalErrorHandler = require('./utils/globalErrorHandler');
 
 // Main program
 var app = express();
@@ -35,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/api/users', apiUserRouter);
 app.use('/api/messages', apiMessageRouter);
 
 // catch 404 and forward to error handler
