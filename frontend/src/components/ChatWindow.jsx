@@ -43,7 +43,7 @@ export default function ChatWindow() {
 
   return (
     <div  style={{ height: `calc(100vh - 5rem)` }}>
-      <h1 className='p-2'>{chat.name}</h1>
+      <h1 className='m-2 p-2'>{chat.name}</h1>
       <div className='flex flex-col' style={{ height: '100%' }} >
         <div className="overflow-y-auto flex-1 p-2">{messageList}</div>
         <div className='h-2rem'>
