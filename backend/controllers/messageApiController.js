@@ -15,6 +15,7 @@ exports.messages_list = [
   asyncHandler(async (req, res, next) => {
     const chatId = req.query.chatId;
     const messages_list = await Message.find({ chatId })
+      .populate()
       .sort({ data: 1 })
       .exec();
 
