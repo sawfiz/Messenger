@@ -42,7 +42,9 @@ exports.chat_create_post = [
     console.log("🚀 ~ file: chatApiController.js:40 ~ asyncHandler ~ req:", req.body)
     try {
       const chat = new Chat({
-        buddies: req.body,
+        name: req.body.name,
+        buddies: req.body.buddies,
+        groupChat: req.body.groupChat,
       });
       const result = await chat.save();
       res.status(201).json({ message: 'Success' });

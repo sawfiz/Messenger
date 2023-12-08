@@ -15,7 +15,7 @@ import Signup from '../components/Signup';
 // import Login from '../components/user/Login';
 // import Logout from '../components/user/Logout';
 import Chats from '../components/Chats'
-import Chat from '../components/ChatWindow'
+import ChatWindow from '../components/ChatWindow'
 import AddChat from '../components/AddChat';
 
 
@@ -25,7 +25,7 @@ const routes = createRoutesFromElements(
     <Route path="/signup" element={<Signup />} />
     {/* <Route path="/login" element={<Login />} /> */}
     <Route path="/chats" element={<Chats />} />
-    <Route path="/chat" element={<Chat />} />
+    <Route path="/chat/:id" element={<ChatWindow />} />
     <Route path="/addchat" element={<AddChat />} />
 
 

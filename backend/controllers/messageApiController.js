@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler');
 // const { body, validationResult } = require('express-validator');
 
 // const validateObjectId = require('../middleware/validateObjectId');
-// const { verifyJWT } = require('../middleware/verifyJWT');
+const { verifyJWT } = require('../middleware/verifyJWT');
 const CustomError = require('../utils/CustomError');
 
 // Model
@@ -11,16 +11,12 @@ const Message = require('../models/message');
 
 // Handle GET all messages.
 exports.messages_list = [
-  // verifyJWT,
+  verifyJWT,
   asyncHandler(async (req, res, next) => {
-    const messages_list = await Message.find(
-      {},
-      ''
-    )
-      // .sort({ first_name: 1 })
-      // .maxTimeMS(5000) // Set the maximum time for query execution
+    const chatId = req.query.chatId;
+    const messages_list = await Message.find({ chatId })
+      .sort({ data: 1 })
       .exec();
-    // Send Success status and data
 
     res.status(200).json({ messages_list });
   }),
@@ -44,6 +40,8 @@ exports.message_create_post = [
     // }
 
     const message = new Message({
+      senderId: req.body.senderId,
+      chatId: req.body.chatId,
       text: req.body.text,
       date: req.body.date,
     });

@@ -1,15 +1,22 @@
+// Libraries
 import React, { useEffect, useState } from 'react';
+import { useParams} from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import httpRequest from '../utils/apiServices';
 
 import MessageWindow from './MessageWindow';
 import Message from './Message';
 
 export default function ChatWindow() {
+  const { id } = useParams();
+  const location = useLocation();
+  const chat = location.state && location.state.chatObject;
+
   const [data, setData] = useState([]);
 
   const fetchData = async () => {
     try {
-      const response = await httpRequest('GET', '/api/messages');
+      const response = await httpRequest('GET', `/api/messages/?chatId=${chat._id}`);
       console.log(
         '🚀 ~ file: ChatWindow.jsx:10 ~ fetchData ~ response:',
         response
@@ -35,10 +42,13 @@ export default function ChatWindow() {
   };
 
   return (
-    <div className='flex flex-col' style={{ height: `calc(100vh - 1.4rem)` }}>
-      <div className="overflow-y-auto flex-1 p-2">{messageList}</div>
-      <div className='h-2rem'>
-        <MessageWindow onSendMessage={handleSendMessage} />
+    <div  style={{ height: `calc(100vh - 4.5rem)` }}>
+      <h1 className='p-2'>{chat.name}</h1>
+      <div className='flex flex-col' style={{ height: '100%' }} >
+        <div className="overflow-y-auto flex-1 p-2">{messageList}</div>
+        <div className='h-2rem'>
+          <MessageWindow onSendMessage={handleSendMessage} chatId={chat._id}/>
+        </div>
       </div>
     </div>
   );
