@@ -39,7 +39,14 @@ exports.chat_detail = [
 // Handle POST to create an chat
 exports.chat_create_post = [
   asyncHandler(async (req, res, next) => {
-    console.log("🚀 ~ file: chatApiController.js:40 ~ asyncHandler ~ req:", req.body)
+    const { buddies } = req.body;
+
+    const existingChat = await Chat.findOne({buddies}, '').exec();
+
+    if (existingChat) {
+      return res.status(201).json({ message: existingChat });
+    }
+
     try {
       const chat = new Chat({
         name: req.body.name,
@@ -47,7 +54,7 @@ exports.chat_create_post = [
         groupChat: req.body.groupChat,
       });
       const result = await chat.save();
-      res.status(201).json({ message: 'Success' });
+      res.status(201).json({ message: result });
     } catch (err) {
       throw new CustomError(500, 'Erro saving chat');
     }

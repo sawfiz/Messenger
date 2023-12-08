@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DynamicList from './DynamicList';
 import httpRequest from '../utils/apiServices';
 import { AuthContext } from '../contexts/AuthContext';
@@ -6,6 +7,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import { Form, InputGroup } from 'react-bootstrap';
 
 export default function AddChat() {
+  const navigate = useNavigate();
   const { currentUser } = useContext(AuthContext);
   // By default add the current user to the buddies
   const [formData, setFormData] = useState({
@@ -56,11 +58,18 @@ export default function AddChat() {
 
   const handleClick = async () => {
     console.log(formData);
-    const response = await httpRequest('POST', '/api/chats', formData);
-    console.log(
-      '🚀 ~ file: AddChat.jsx:20 ~ handleClick ~ response:',
-      response
-    );
+    try {
+      const response = await httpRequest('POST', '/api/chats', formData);
+      console.log(
+        '🚀 ~ file: AddChat.jsx:64 ~ handleClick ~ response:',
+        response
+      );
+      const chat = response.data.message;
+      const chatId = chat._id;
+      navigate(`/chat/${chatId}`, { state: { chatObject: chat } } )
+    } catch (error) {
+      console.log('🚀 ~ file: AddChat.jsx:63 ~ handleClick ~ error:', error);
+    }
   };
 
   return (
