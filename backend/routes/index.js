@@ -24,8 +24,6 @@ router.post('/login', async (req, res, next) => {
       if (err) {
         return res.status(500).json({ error: 'Internal server error' });
       }
-      // Assign the authenticated user to res.locals.currentUser
-      res.locals.currentUser = user;
 
       const { JWT_SECRET_KEY } = process.env;
 

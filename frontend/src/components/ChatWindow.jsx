@@ -32,7 +32,7 @@ export default function ChatWindow() {
   }, []);
 
   const messageList = data.map((message) => (
-    <Message key={message._id} text={message.text}/>
+    <Message key={message._id} message={message}/>
   ));
 
   // Pass into MessageWindow, called when a new message is sent
@@ -42,7 +42,7 @@ export default function ChatWindow() {
   };
 
   return (
-    <div  style={{ height: `calc(100vh - 4.5rem)` }}>
+    <div  style={{ height: `calc(100vh - 5rem)` }}>
       <h1 className='p-2'>{chat.name}</h1>
       <div className='flex flex-col' style={{ height: '100%' }} >
         <div className="overflow-y-auto flex-1 p-2">{messageList}</div>

@@ -1,11 +1,21 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import { AuthContext } from '../contexts/AuthContext'
 
-export default function Message({text}) {
+
+export default function Message({message}) {
+  const {currentUser} = useContext(AuthContext)
   return (
-    <div>
-      <div className='message-bubble'>
-        <p className="message-content">{text}</p>
+    <div className='message-container'>
+      {message.senderId === currentUser._id ?
+      <div className='message-bubble-send'>
+        <p className="message-content">{message.text}</p>
         </div>
+        :
+      <div className='message-bubble-received'>
+        <p className="message-content">{message.text}</p>
+        </div>
+
+        }
     </div>
   )
 }

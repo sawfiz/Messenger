@@ -9,14 +9,12 @@ const CustomError = require('../utils/CustomError');
 // Model
 const Chat = require('../models/chat');
 
-// Handle GET all chats.
+// Handle GET chats that the currentUser participates
 exports.chats_list = [
   verifyJWT,
   asyncHandler(async (req, res, next) => {
-    // TODO: only send chats that the current user is involved in
     const currentUser = res.locals.currentUser;
-    console.log("🚀 ~ file: chatApiController.js:17 ~ asyncHandler ~ currentUser:", currentUser)
-    const chats_list = await Chat.find({}, '').exec();
+    const chats_list = await Chat.find({buddies: currentUser._id}).exec();
     res.status(200).json({ chats_list });
   }),
 ];
