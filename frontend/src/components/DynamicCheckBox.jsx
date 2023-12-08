@@ -11,16 +11,17 @@ export default function DynamicCheckBox({
 
   // Perhaps list is updated after the initial rendering
   useEffect(() => {
-    setIsChecked(list.includes(data.id));
-  }, [list]);
+    const found = list.some(item => item.id === data.id);
+    setIsChecked(found);
+  }, [list, data]);
 
   const handleChange = (e) => {
     if (e.target.checked) {
       setIsChecked(true);
-      addItem(data.id);
+      addItem(data);
     } else {
       setIsChecked(false);
-      removeItem(data.id);
+      removeItem(data);
     }
   };
 
