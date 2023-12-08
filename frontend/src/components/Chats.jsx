@@ -17,10 +17,6 @@ export default function Chats() {
   const fetchData = async () => {
     try {
       const response = await httpRequest('GET', '/api/chats');
-      console.log(
-        '🚀 ~ file: ChatWindow.jsx:10 ~ fetchData ~ response:',
-        response
-      );
       setData(response.data.chats_list);
     } catch (error) {
       console.log('🚀 ~ file: ChatWindow.jsx:10 ~ fetchData ~ error:', error);

@@ -1,11 +1,25 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
+import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [name, setName] = useState('');
   const [currentUser, setCurrentUser] = useState('');
+  console.log("🚀 ~ file: AuthContext.jsx:9 ~ AuthProvider ~ currentUser:", currentUser)
+
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwtDecode(token); // Decode the token
+      if (decodedToken) {
+        // Access user information from the decoded token payload
+        setCurrentUser(decodedToken.user); // Set the user data from the decoded token
+        setIsLoggedIn(true);
+      }
+    }
+  }, []);
 
   const login = (user) => {
     setIsLoggedIn(true);
@@ -14,12 +28,10 @@ const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setIsLoggedIn(false);
-    setName('');
   };
 
   const authContextValue = {
     isLoggedIn,
-    name,
     currentUser,
     login,
     logout,

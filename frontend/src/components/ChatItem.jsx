@@ -7,7 +7,6 @@ export default function ChatItem({ chat }) {
   console.log("🚀 ~ file: ChatItem.jsx:7 ~ ChatItem ~ chat:", chat)
   const navigate = useNavigate();
   const {currentUser} = useContext(AuthContext)
-  console.log("🚀 ~ file: ChatItem.jsx:10 ~ ChatItem ~ currentUser:", currentUser)
 
   const handleClick = () => {
     navigate(`/chat/${chat._id}`, { state: { chatObject: chat } });

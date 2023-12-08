@@ -10,7 +10,6 @@ export default function MessageWindow({ onSendMessage, chatId }) {
   const { currentUser } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
-    senderId: currentUser._id,
     chatId: chatId,
     text: '',
   });
@@ -26,8 +25,20 @@ export default function MessageWindow({ onSendMessage, chatId }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Add a timestamp to formData
-    const updatedFormData = { ...formData, data: new Date() };
-    const response = await httpRequest('POST', '/api/messages', updatedFormData);
+    const updatedFormData = {
+      ...formData,
+      senderId: currentUser._id,
+      data: new Date(),
+    };
+    console.log(
+      '🚀 ~ file: MessageWindow.jsx:30 ~ handleSubmit ~ updatedFormData:',
+      updatedFormData
+    );
+    const response = await httpRequest(
+      'POST',
+      '/api/messages',
+      updatedFormData
+    );
     if (response.error) {
       console.log(
         '🚀 ~ file: MessageWindow.jsx:21 ~ handleSubmit ~ response.error:',
