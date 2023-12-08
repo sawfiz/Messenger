@@ -185,9 +185,11 @@ const UserForm = ({ action }) => {
   };
 
   const handleCancel = () => {
+    console.log("🚀 ~ file: UserForm.jsx:189 ~ handleCancel ~ action:", action)
     if (action === 'Create') {
       navigate('/');
     }
+    console.log("🚀 ~ file: UserForm.jsx:189 ~ handleCancel ~ action:", action)
     navigate(`/users/${id}`);
     // In case of Update, the cancel button is automatically handled
   };

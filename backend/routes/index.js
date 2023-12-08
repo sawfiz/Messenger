@@ -26,9 +26,11 @@ router.post('/login', async (req, res, next) => {
       }
       // Assign the authenticated user to res.locals.currentUser
       res.locals.currentUser = user;
-      
+
+      const { JWT_SECRET_KEY } = process.env;
+
       // Send the JWT token
-      jwt.sign({ user }, 'secretkey', { expiresIn: '1hr' }, (err, token) => {
+      jwt.sign({ user }, JWT_SECRET_KEY, { expiresIn: '1hr' }, (err, token) => {
         return res
           .status(200)
           .json({ message: 'Logged in successfully', user, token, info });
