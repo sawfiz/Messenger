@@ -29,7 +29,7 @@ const DynamicList = ({
   showFilter,
 }) => {
   const navigate = useNavigate();
-  const { userId, logout } = useContext(AuthContext);
+  const { currentUser, logout } = useContext(AuthContext);
   const { showModal, closeModal } = useModal();
 
   const [data, setData] = useState([]);
@@ -84,7 +84,6 @@ const DynamicList = ({
 
   const filterData = (item) => {
     const nameIncludesText = item.name.toLowerCase().includes(searchText);
-
     return nameIncludesText;
   };
 
@@ -99,7 +98,7 @@ const DynamicList = ({
   // Do not show the current user in the list
   const checkboxes = list
   ? filteredData
-      .filter(item => item.id !== userId)
+      .filter(item => item.id !== currentUser.id)
       .map(item => (
         <DynamicCheckBox
           key={item._id}

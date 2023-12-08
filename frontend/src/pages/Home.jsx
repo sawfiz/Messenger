@@ -10,7 +10,6 @@ import { useModal, InfoModal } from '../contexts/ModalContext';
 import { useNavigate } from 'react-router-dom';
 
 // Components
-// import Login from '../components/user/Login';
 
 // Styling
 import { Form, Row, Col, Button } from 'react-bootstrap';
@@ -49,12 +48,10 @@ export default function Home() {
         />
       );
     } else {
-      // Set response and the user's name in the AuthContext
-      const name = response.data.user.name;
-      const id = response.data.user.id;
-      console.log("🚀 ~ file: Home.jsx:54 ~ handleSubmit ~ response.data.user:", response.data.user)
-      login(name, id);
-      // Save the JWT token in localStorage
+      // Store logged in user as the currentUser in the AuthContext so it can be used in other components
+      const currentUser = response.data.user;
+      login(currentUser);
+      // Save the JWT token in localStorage for use by http requests elsewhere
       const token = response.data.token;
       localStorage.setItem('token', token);
       navigate('/chats');

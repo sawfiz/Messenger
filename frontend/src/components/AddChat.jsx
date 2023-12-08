@@ -4,9 +4,9 @@ import httpRequest from '../utils/apiServices';
 import { AuthContext } from '../contexts/AuthContext';
 
 export default function AddChat() {
-  const {userId} = useContext(AuthContext)
+  const { currentUser } = useContext(AuthContext);
   // By default add the current user to the buddies
-  const [buddies, setBuddies] = useState([userId]);
+  const [buddies, setBuddies] = useState([currentUser]);
 
   const addBuddy = (id) => {
     setBuddies([...buddies, id]);
@@ -19,9 +19,12 @@ export default function AddChat() {
 
   const handleClick = async () => {
     console.log(buddies);
-    const response = await httpRequest('POST', '/api/chats', buddies)
-    console.log("🚀 ~ file: AddChat.jsx:20 ~ handleClick ~ response:", response)
-  }
+    const response = await httpRequest('POST', '/api/chats', buddies);
+    console.log(
+      '🚀 ~ file: AddChat.jsx:20 ~ handleClick ~ response:',
+      response
+    );
+  };
 
   return (
     <div>
@@ -39,8 +42,10 @@ export default function AddChat() {
           showFilter={true}
         />
       </div>
-      <div className='m-4 flex justify-center'>
-        <button className="btn btn-primary w-20" onClick={handleClick}>OK</button>
+      <div className="m-4 flex justify-center">
+        <button className="btn btn-primary w-20" onClick={handleClick}>
+          OK
+        </button>
       </div>
     </div>
   );
