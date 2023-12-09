@@ -71,11 +71,11 @@ export default function Home() {
       }}
     >
       <div
-        className="p-4 rounded bg-white shadow"
+        className="rounded-lg bg-white shadow-custom"
         style={{ maxWidth: '300px', width: '100%' }}
       >
-        <h2 className="text-center mb-4">Login</h2>
-        <Form onSubmit={handleSubmit}>
+        <h2 className="text-center mb-4 p-2 bg-slate-700 text-white rounded-t-lg">Messenger</h2>
+        <Form onSubmit={handleSubmit} className='px-4'>
           <Form.Group as={Row} controlId="formUsername">
             <Form.Label column sm="4">
               Username:

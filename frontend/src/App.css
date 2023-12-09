@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Shadown of the login form */
+.shadow-custom {
+  box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.4);
+}
+
 .message-container {
   display: flex;
   flex-direction: column; /* Aligns message bubbles in a vertical column */
