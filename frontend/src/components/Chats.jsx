@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import httpRequest from '../utils/apiServices';
 
+import Header from '../pages/Header';
 import ChatItem from './ChatItem';
 
 import { Button } from 'react-bootstrap';
@@ -35,8 +36,9 @@ export default function Chats() {
   };
 
   return (
-    <div>
-      <div className="my-8 mx-4 h-8 flex justify-between items-center ">
+    <div className='flex flex-col'>
+      <Header />
+      <div className="flex-1 mt-20 mx-4 h-8 flex justify-between items-center ">
         <h1 className="my-auto">Chats</h1>
         <button onClick={handleClick}>
           <img src={plusInCircle} className="w-8 h-8"></img>

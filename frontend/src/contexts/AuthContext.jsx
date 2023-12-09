@@ -6,10 +6,6 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  console.log(
-    '🚀 ~ file: AuthContext.jsx:8 ~ AuthProvider ~ isLoggedIn:',
-    isLoggedIn
-  );
   const [currentUser, setCurrentUser] = useState('');
 
   useEffect(() => {
