@@ -22,7 +22,7 @@ export default function Message({ message, groupChat }) {
       {message.senderId._id === currentUser._id ? (
         <div className="message-bubble-send">
           <div className='flex justify-end'>
-            <p className="message-content">{formatDate()}</p>
+          <p className="message-date">{formatDate()}</p>
           </div>
           <p className="message-content">{message.text}</p>
         </div>
@@ -30,9 +30,9 @@ export default function Message({ message, groupChat }) {
         <div className="message-bubble-received">
           <div className='flex justify-between'>
             {groupChat ? (
-              <p className="message-content">{message.senderId.name}</p>
+              <p className="message-content font-bold">{message.senderId.name}</p>
             ) : <p/>}
-            <p className="message-content">{formatDate()}</p>
+            <p className="message-date">{formatDate()}</p>
           </div>
           <p className="message-content">{message.text}</p>
         </div>

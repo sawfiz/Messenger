@@ -11,14 +11,14 @@
 
 /* Styles for the message bubble container */
 .message-bubble-received {
-  display: inline; /* Display as an inline block to adjust to the length of text */
+  display: inline-block; /* Display as an inline block to adjust to the length of text */
   padding: 8px 12px; /* Padding around the message content */
   margin: 4px; /* Margin between message bubbles */
   border-radius: 8px; /* Rounded corners for the bubble */
   background-color: #00c0c0; /* Background color for the bubble */
-  word-wrap: break-word; /* Enable word wrap for long messages */
-  max-width: 70%; /* Maximum width of the message bubble */
-  min-width: 250px; /* Minimum width of the message bubble for short messages */
+  word-wrap: break-all; /* Enable word wrap for long messages */
+  max-width: 80%; /* Maximum width of the message bubble */
+  min-width: 50px; /* Minimum width of the message bubble for short messages */
   /* Other styles for positioning and appearance */
 }
 
@@ -29,8 +29,8 @@
   border-radius: 8px; /* Rounded corners for the bubble */
   background-color: #dcf8c6; /* Background color for the bubble */
   word-wrap: break-all; /* Enable word wrap for long messages */
-  max-width: 70%; /* Maximum width of the message bubble */
-  min-width: 250px; /* Minimum width of the message bubble for short messages */
+  max-width: 80%; /* Maximum width of the message bubble */
+  min-width: 50px; /* Minimum width of the message bubble for short messages */
   align-self: flex-end; /* Aligns the bubble to the right within the container */
   /* Other styles for positioning and appearance */
 }
@@ -40,4 +40,10 @@
   margin: 0; /* Reset margin */
   font-size: 14px; /* Font size for the message */
   /* Other styles for text appearance */
+}
+
+.message-date {
+  margin: 0;
+  font-size: 10px;
+  font-weight: light;
 }
