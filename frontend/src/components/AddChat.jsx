@@ -14,6 +14,7 @@ export default function AddChat() {
     name: '',
     buddies: [currentUser],
     groupChat: false,
+    
   });
 
   const addBuddy = (user) => {

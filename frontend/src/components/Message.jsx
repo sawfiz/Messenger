@@ -30,7 +30,7 @@ export default function Message({ message, groupChat }) {
         <div className="message-bubble-received">
           <div className='flex justify-between'>
             {groupChat ? (
-              <p className="message-content font-bold">{message.senderId.name}</p>
+              <p className="message-name">{message.senderId.name}</p>
             ) : <p/>}
             <p className="message-date">{formatDate()}</p>
           </div>

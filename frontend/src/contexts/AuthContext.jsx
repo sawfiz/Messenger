@@ -4,7 +4,12 @@ import { jwtDecode } from 'jwt-decode';
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
+  const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  console.log(
+    '🚀 ~ file: AuthContext.jsx:8 ~ AuthProvider ~ isLoggedIn:',
+    isLoggedIn
+  );
   const [currentUser, setCurrentUser] = useState('');
 
   useEffect(() => {
@@ -15,6 +20,7 @@ const AuthProvider = ({ children }) => {
         // Access user information from the decoded token payload
         setCurrentUser(decodedToken.user); // Set the user data from the decoded token
         setIsLoggedIn(true);
+        setLoading(false)
       }
     }
   }, []);
@@ -29,6 +35,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const authContextValue = {
+    loading,
     isLoggedIn,
     currentUser,
     login,
