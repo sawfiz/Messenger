@@ -9,7 +9,7 @@ const chat_api_controller = require('../controllers/chatApiController');
 router.get('/', chat_api_controller.chats_list);
 
 // GET request for one chat.
-// router.get('/:id', chat_api_controller.chat_detail);
+router.get('/:id', chat_api_controller.chat_detail);
 
 // POST request for creating chat.
 router.post('/', chat_api_controller.chat_create_post);

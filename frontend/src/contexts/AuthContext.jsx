@@ -1,13 +1,11 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState('');
-  console.log("🚀 ~ file: AuthContext.jsx:9 ~ AuthProvider ~ currentUser:", currentUser)
-
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -37,7 +35,11 @@ const AuthProvider = ({ children }) => {
     logout,
   };
 
-  return <AuthContext.Provider value={authContextValue}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={authContextValue}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export { AuthProvider, AuthContext };

@@ -34,7 +34,6 @@ export default function Home() {
     e.preventDefault();
     setLoading(true)
     const response = await httpRequest('POST', '/login', formData );
-    console.log("🚀 ~ file: Home.jsx:37 ~ handleSubmit ~ response:", response)
     setLoading(false)
 
     if (response.error) {

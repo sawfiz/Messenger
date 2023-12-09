@@ -4,13 +4,13 @@ import { Card } from 'react-bootstrap';
 import { AuthContext } from '../contexts/AuthContext';
 
 export default function ChatItem({ chat }) {
-  console.log("🚀 ~ file: ChatItem.jsx:7 ~ ChatItem ~ chat:", chat)
   const navigate = useNavigate();
   const {currentUser} = useContext(AuthContext)
 
   const handleClick = () => {
-    navigate(`/chat/${chat._id}`, { state: { chatObject: chat } });
+    navigate(`/chat/${chat._id}`);
   };
+
   const displayChatName = () => {
     if (chat.groupChat) {
       // For group chats, display "Chat with" and names of buddies (excluding currentUser)

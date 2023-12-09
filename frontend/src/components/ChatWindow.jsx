@@ -1,51 +1,65 @@
 // Libraries
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 import httpRequest from '../utils/apiServices';
 
+// Contexts
+import { AuthContext } from '../contexts/AuthContext';
 
+// Components
 import MessageWindow from './MessageWindow';
 import Message from './Message';
-import { AuthContext } from '../contexts/AuthContext';
 
 export default function ChatWindow() {
   const { id } = useParams();
 
-  // Passing in chat from a navigate
-  const location = useLocation();
-  const chat = location.state && location.state.chatObject;
-
+  // Reference to the container element, to auto scroll to bottom of chat
   const messageContainerRef = useRef(null);
 
-  const {currentUser} = useContext(AuthContext)
+  const { currentUser } = useContext(AuthContext);
 
-  const [data, setData] = useState([]);
+  // state variable for message list
+  const [chat, setChat] = useState(null);
+  const [messages, setMessages] = useState([]);
 
-  const fetchData = async () => {
+  // Fetch chat info on mount
+  const fetchChat = async () => {
     try {
-      const response = await httpRequest(
-        'GET',
-        `/api/messages/?chatId=${chat._id}`
-      );
+      const response = await httpRequest('GET', `/api/chats/${id}`);
+      setChat(response.data.chat);
+    } catch (error) {
       console.log(
-        '🚀 ~ file: ChatWindow.jsx:10 ~ fetchData ~ response:',
-        response
+        '🚀 ~ file: ChatWindow.jsx:37 ~ fetchMessages ~ error:',
+        error
       );
-      setData(response.data.messages_list);
+    }
+  };
+
+  // Fetch messages on mount
+  const fetchMessages = async () => {
+    try {
+      const response = await httpRequest('GET', `/api/messages/?chatId=${id}`);
+      setMessages(response.data.messages_list);
     } catch (error) {
       console.log('🚀 ~ file: ChatWindow.jsx:10 ~ fetchData ~ error:', error);
     }
   };
 
   useEffect(() => {
+    const fetchData = async () => {
+      await fetchChat();
+      await fetchMessages();
+    };
+
     fetchData();
   }, []);
 
-  const messageList = data.map((message) => (
-    <Message key={message._id} message={message} />
+  const messageList = messages.map((message) => (
+    <Message key={message._id} message={message} groupChat={chat.groupChat} />
   ));
 
+  // Scroll to the bottom of the chat window
+  // Triggers on messageList in case of new messages
   useEffect(() => {
     if (messageContainerRef.current) {
       // Scroll to the bottom of the message container
@@ -54,25 +68,33 @@ export default function ChatWindow() {
     }
   }, [messageList]);
 
+  // Decide the name of the chat, depending on 1-on-1 or group chat
   const displayChatName = () => {
-    if (chat.groupChat) {
-      // For group chats, display "Chat with" and names of buddies (excluding currentUser)
-      const otherBuddies = chat.buddies.filter((buddy) => buddy._id !== currentUser._id);
-      const names = otherBuddies.map((buddy) => buddy.first_name).join(', ');
-      return `Chat with ${names}`;
+    if (chat) {
+      if (chat.groupChat) {
+        // For group chats, display "Chat with" and names of buddies (excluding currentUser)
+        const otherBuddies = chat.buddies.filter(
+          (buddy) => buddy._id !== currentUser._id
+        );
+        const names = otherBuddies.map((buddy) => buddy.first_name).join(', ');
+        return `Chat with ${names}`;
+      } else {
+        // For one-on-one chats, display the name of the other user (buddy)
+        const otherBuddy = chat.buddies.find((buddy) => {
+          return buddy._id !== currentUser._id;
+        });
+        return otherBuddy.name;
+      }
     } else {
-      // For one-on-one chats, display the name of the other user (buddy)
-      const otherBuddy = chat.buddies.find((buddy) => buddy._id !== currentUser._id);
-      return otherBuddy.name;
+      return '';
     }
   };
 
-
-
   // Pass into MessageWindow, called when a new message is sent
+  // this forces re-render of the ChatWindow
   const handleSendMessage = async () => {
     // Call fetchData to re-fetch the messages after a new message is sent
-    await fetchData();
+    await fetchMessages();
   };
 
   return (
@@ -83,7 +105,7 @@ export default function ChatWindow() {
           {messageList}
         </div>
         <div className="h-2rem">
-          <MessageWindow onSendMessage={handleSendMessage} chatId={chat._id} />
+          <MessageWindow onSendMessage={handleSendMessage} chatId={id} />
         </div>
       </div>
     </div>

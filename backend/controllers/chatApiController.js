@@ -23,7 +23,9 @@ exports.chats_list = [
 exports.chat_detail = [
   validateObjectId,
   asyncHandler(async (req, res, next) => {
-    const [chat] = await Promise.all([Chat.findById(req.params.id).populate(buddies).exec()]);
+    console.log("get chat info");
+    const chat = await Chat.findById(req.params.id).populate().exec();
+    console.log("🚀 ~ file: chatApiController.js:27 ~ asyncHandler ~ chat:", chat)
 
     if (chat === null) {
       const err = new Error('chat not found');

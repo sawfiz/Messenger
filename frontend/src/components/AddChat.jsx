@@ -66,7 +66,7 @@ export default function AddChat() {
       );
       const chat = response.data.message;
       const chatId = chat._id;
-      navigate(`/chat/${chatId}`, { state: { chatObject: chat } } )
+      navigate(`/chat/${chatId}` )
     } catch (error) {
       console.log('🚀 ~ file: AddChat.jsx:63 ~ handleClick ~ error:', error);
     }
