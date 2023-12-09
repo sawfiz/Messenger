@@ -1,5 +1,6 @@
 // Libraries
 import React, { useEffect, useState, useRef, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import httpRequest from '../utils/apiServices';
 
@@ -12,6 +13,7 @@ import Message from './Message';
 
 export default function ChatWindow() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   // Reference to the container element, to auto scroll to bottom of chat
   const messageContainerRef = useRef(null);
@@ -90,6 +92,10 @@ export default function ChatWindow() {
     }
   };
 
+  const handleClick =() => {
+    navigate('/chats')
+  }
+
   // Pass into MessageWindow, called when a new message is sent
   // this forces re-render of the ChatWindow
   const handleSendMessage = async () => {
@@ -99,7 +105,10 @@ export default function ChatWindow() {
 
   return (
     <div style={{ height: `calc(100vh - 5rem)` }}>
-      <h1 className="m-2 p-2">{displayChatName()}</h1>
+      <div className='flex'>
+        <button className='btn' onClick={handleClick}>⬅</button>
+        <h1 className="m-2 p-2">{displayChatName()}</h1>
+      </div>
       <div className="flex flex-col" style={{ height: '100%' }}>
         <div ref={messageContainerRef} className="overflow-y-auto flex-1 p-2">
           {messageList}
