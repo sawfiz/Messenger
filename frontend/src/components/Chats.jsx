@@ -3,10 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 import httpRequest from '../utils/apiServices';
 
-import Header from '../pages/Header';
 import ChatItem from './ChatItem';
 
-import { Button } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 
 import plusInCircle from '../assets/images/950764.png';
 
@@ -36,15 +35,16 @@ export default function Chats() {
   };
 
   return (
-    <div className='flex flex-col'>
-      <Header />
-      <div className="flex-1 mt-20 mx-4 h-8 flex justify-between items-center ">
-        <h1 className="my-auto">Chats</h1>
-        <button onClick={handleClick}>
-          <img src={plusInCircle} className="w-8 h-8"></img>
-        </button>
+    <main>
+      <div className='flex flex-col'>
+        <div className="mt-2 mx-4 h-8 flex justify-between items-center ">
+          <h1 className="my-auto">Chats</h1>
+          <button onClick={handleClick}>
+            <img src={plusInCircle} className="w-8 h-8"></img>
+          </button>
+        </div>
+        <div className="overflow-y-auto flex-1 p-2">{chatList}</div>
       </div>
-      <div className="m-4">{chatList}</div>
-    </div>
+    </main>
   );
 }

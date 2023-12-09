@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 
 export default function Header() {
@@ -10,7 +11,8 @@ export default function Header() {
           <Navbar.Toggle />
           <Navbar.Collapse>
             <Nav>
-              <Nav.Link> Profile</Nav.Link>
+              <Nav.Link as={Link} to='/chats'> Chats</Nav.Link>
+              <Nav.Link as={Link} to='/profile'> Profile</Nav.Link>
               <Nav.Link> Logout</Nav.Link>
             </Nav>
           </Navbar.Collapse>

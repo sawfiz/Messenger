@@ -16,6 +16,7 @@ import Signup from '../components/Signup';
 import Chats from '../components/Chats';
 import ChatWindow from '../components/ChatWindow';
 import AddChat from '../components/AddChat';
+import Profile from '../components/Profile';
 
 const routes = createRoutesFromElements(
   <Route path="/" element={<RootLayout />}>
@@ -25,6 +26,7 @@ const routes = createRoutesFromElements(
       <Route path="/chats" element={<Chats />} />
       <Route path="/chat/:id" element={<ChatWindow />} />
       <Route path="/addchat" element={<AddChat />} />
+      <Route path="/profile" element={<Profile />} />
     </Route>
   </Route>
 );

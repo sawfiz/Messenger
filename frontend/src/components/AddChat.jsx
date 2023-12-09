@@ -14,7 +14,7 @@ export default function AddChat() {
     name: '',
     buddies: [currentUser],
     groupChat: false,
-    
+
   });
 
   const addBuddy = (user) => {
@@ -74,8 +74,8 @@ export default function AddChat() {
   };
 
   return (
-    <div>
-      <div className="my-8 mx-4 h-8 flex justify-between items-center ">
+    <main>
+      <div className="my-2 mx-4 h-8 flex justify-between items-center ">
         {/* Conditionally render group chat name input */}
         {formData.groupChat ? (
           <div className="w-full">
@@ -115,6 +115,6 @@ export default function AddChat() {
           OK
         </button>
       </div>
-    </div>
+    </main>
   );
 }

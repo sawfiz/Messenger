@@ -106,14 +106,14 @@ export default function ChatWindow() {
       {loading ? (
         <p>Loading</p>
       ) : (
-        <div style={{ height: `calc(100vh - 5rem)` }}>
+        <main>
           <div className="flex">
             <button className="btn" onClick={handleClick}>
               ⬅
             </button>
-            <h1 className="m-2 p-2">{displayChatName()}</h1>
+            <h3 className="p-2">{displayChatName()}</h3>
           </div>
-          <div className="flex flex-col" style={{ height: '100%' }}>
+          <div className="flex flex-col" style={{height: 'calc(100vh - 130px'}} >
             <div
               ref={messageContainerRef}
               className="overflow-y-auto flex-1 p-2"
@@ -124,7 +124,7 @@ export default function ChatWindow() {
               <MessageWindow onSendMessage={handleSendMessage} chatId={id} />
             </div>
           </div>
-        </div>
+        </main>
       )}
     </>
   );

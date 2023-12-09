@@ -1,6 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --color-background: #333;
+  --color-dark: #0500f5;
+  --color-light: #76f3fd;
+  --color-highlight: honeydew;
+  --color-list-header: #ecb390;
+  --max-content-width: 800px;
+  --min-content-width: 375px;
+  --color-hotpink: #ff69b4;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* border: 1px hotpink solid; */
+  font-family: 'Roboto', sans-serif;
+}
+
+#root {
+  background: var(--color-background);
+}
+
+main {
+  background: var(--color-light);
+  /* width: clamp(var(--min-content-width), 100%, var(--max-content-width)); */
+  margin: auto;
+  padding: 0.25rem;
+  position: relative;
+  min-height: calc(100vh - 75px);
+  margin-top: 56px;
+}
 
 /* Shadown of the login form */
 .shadow-custom {
