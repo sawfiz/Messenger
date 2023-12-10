@@ -25,7 +25,6 @@ exports.chat_detail = [
   asyncHandler(async (req, res, next) => {
     console.log("get chat info");
     const chat = await Chat.findById(req.params.id).populate().exec();
-    console.log("🚀 ~ file: chatApiController.js:27 ~ asyncHandler ~ chat:", chat)
 
     if (chat === null) {
       const err = new Error('chat not found');

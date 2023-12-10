@@ -29,8 +29,8 @@ export default function Header() {
 
   const handleLogout = async () => {
     try {
-      // const result = await httpRequest('POST', '/logout');
-      // console.log("🚀 ~ file: Header.jsx:33 ~ handleLogout ~ result:", result)
+      const result = await httpRequest('POST', '/logout');
+      console.log("🚀 ~ file: Header.jsx:33 ~ handleLogout ~ result:", result)
       logout();
       closeModal(); // Close the modal on button click
       navigate('/');

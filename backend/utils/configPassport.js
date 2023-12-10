@@ -9,7 +9,6 @@ function configPassport() {
     new LocalStrategy(async (username, password, done) => {
       try {
         const user = await User.findOne({ username: username });
-        console.log("🚀 ~ file: configPassport.js:12 ~ newLocalStrategy ~ user:", user)
         if (!user) {
           return done(null, false, { message: 'Incorrect username' });
         }
@@ -26,7 +25,6 @@ function configPassport() {
 
   // Function to create a cookie
   passport.serializeUser((user, done) => {
-    console.log("🚀 ~ file: configPassport.js:29 ~ passport.serializeUser ~ user:", user)
     done(null, user.id);
   });
 
@@ -34,7 +32,6 @@ function configPassport() {
   passport.deserializeUser(async (id, done) => {
     try {
       const user = await User.findById(id);
-      console.log("🚀 ~ file: configPassport.js:36 ~ passport.deserializeUser ~ user:", user)
       done(null, user);
     } catch (err) {
       done(err);

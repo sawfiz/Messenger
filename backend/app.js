@@ -8,11 +8,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
 
-// const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const bcrypt = require('bcryptjs');
-const User = require('./models/user');
-
 // Routes
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -22,7 +17,7 @@ const apiMessageRouter = require('./routes/api_messages');
 
 // Utility modules
 const { connectToMongoDB } = require('./utils/mongooseConnection');
-// const configPassport = require('./utils/configPassport');
+const configPassport = require('./utils/configPassport');
 const globalErrorHandler = require('./utils/globalErrorHandler');
 
 // Main program
@@ -42,44 +37,9 @@ app.use(
 );
 
 // Place after the session middleware but before view set up
-// configPassport();
-// app.use(passport.initialize());
-// app.use(passport.session());
-
- // This function will be called when we use the passport.authenticate() function
- passport.use(
-  new LocalStrategy(async (username, password, done) => {
-    try {
-      const user = await User.findOne({ username: username });
-
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username' });
-      }
-      const match = await bcrypt.compare(password, user.password);
-      if (!match) {
-        return done(null, false, { message: 'Incorrect password' });
-      }
-      return done(null, user);
-    } catch (err) {
-      return done(err);
-    }
-  })
-);
-
-// Function to create a cookie
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-// Function to decode a cookie
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await User.findById(id);
-    done(null, user);
-  } catch (err) {
-    done(err);
-  }
-});
+configPassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Make currentUser globally available including the views
 app.use((req, res, next) => {
