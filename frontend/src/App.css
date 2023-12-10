@@ -27,13 +27,12 @@
 }
 
 main {
+  margin-top: 56px;
   background: var(--color-light);
-  /* width: clamp(var(--min-content-width), 100%, var(--max-content-width)); */
-  margin: auto;
+  min-height: calc(100vh - 75px);
   padding: 0.25rem;
   position: relative;
-  min-height: calc(100vh - 75px);
-  margin-top: 56px;
+  /* width: clamp(var(--min-content-width), 100%, var(--max-content-width)); */
 }
 
 /* Shadown of the login form */
