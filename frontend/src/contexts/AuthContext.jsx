@@ -5,23 +5,37 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
-  console.log("🚀 ~ file: AuthContext.jsx:8 ~ AuthProvider ~ loading:", loading)
+  console.log(
+    '🚀 ~ file: AuthContext.jsx:9 ~ AuthProvider ~ loading:',
+    loading
+  );
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  console.log("🚀 ~ file: AuthContext.jsx:10 ~ AuthProvider ~ isLoggedIn:", isLoggedIn)
   const [currentUser, setCurrentUser] = useState('');
-  console.log("🚀 ~ file: AuthContext.jsx:10 ~ AuthProvider ~ currentUser:", currentUser)
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
       const decodedToken = jwtDecode(token); // Decode the token
+      const expirationTime = decodedToken.exp;
+      const currentTime = Math.floor(Date.now() / 1000);
+
       if (decodedToken) {
-        // Access user information from the decoded token payload
-        setCurrentUser(decodedToken.user); // Set the user data from the decoded token
-        setIsLoggedIn(true);
-        setLoading(false);
+        // Get the current time in seconds
+
+        // Check if the token has expired
+        if (expirationTime < currentTime) {
+          console.log('Token has expired');
+          logout();
+        } else {
+          console.log('Token is still valid');
+          // Access user information from the decoded token payload
+          setCurrentUser(decodedToken.user); // Set the user data from the decoded token
+          setIsLoggedIn(true);
+        }
       }
     }
+
+    setLoading(false);
   }, []);
 
   const login = (user) => {
@@ -33,6 +47,7 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     // Remove the 'token' from localStorage
     localStorage.removeItem('token');
+    setCurrentUser(null);
     setIsLoggedIn(false);
   };
 
