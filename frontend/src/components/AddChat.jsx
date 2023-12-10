@@ -14,7 +14,7 @@ export default function AddChat() {
     name: '',
     buddies: [currentUser],
     groupChat: false,
-
+    customName: false,
   });
 
   const addBuddy = (user) => {
@@ -57,7 +57,19 @@ export default function AddChat() {
     updateFormDataName();
   }, [formData.buddies]); // Trigger the update when buddies array changes
 
-  const handleClick = async () => {
+  const handleChangeGroupChatName = (e) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      name: e.target.value,
+      customName: true,
+    }));
+  };
+
+  const handleCancel = () => {
+    navigate('/chats');
+  };
+
+  const handleSubmit = async () => {
     console.log(formData);
     try {
       const response = await httpRequest('POST', '/api/chats', formData);
@@ -67,7 +79,7 @@ export default function AddChat() {
       );
       const chat = response.data.message;
       const chatId = chat._id;
-      navigate(`/chat/${chatId}` )
+      navigate(`/chat/${chatId}`);
     } catch (error) {
       console.log('🚀 ~ file: AddChat.jsx:63 ~ handleClick ~ error:', error);
     }
@@ -84,12 +96,7 @@ export default function AddChat() {
               <Form.Control
                 type="text"
                 value={formData.name}
-                onChange={(e) =>
-                  setFormData((prevData) => ({
-                    ...prevData,
-                    name: e.target.value,
-                  }))
-                }
+                onChange={handleChangeGroupChatName}
               />
             </InputGroup>
           </div>
@@ -110,10 +117,17 @@ export default function AddChat() {
         />
       </div>
 
-      <div className="m-4 flex justify-center">
-        <button className="btn btn-primary w-20" onClick={handleClick}>
-          OK
-        </button>
+      <div className="m-4 flex justify-around">
+        <div>
+          <button className="btn btn-secondary w-20" onClick={handleCancel}>
+            Cancel
+          </button>
+        </div>
+        <div>
+          <button className="btn btn-primary w-20" onClick={handleSubmit}>
+            OK
+          </button>
+        </div>
       </div>
     </main>
   );

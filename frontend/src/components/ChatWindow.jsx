@@ -75,12 +75,16 @@ export default function ChatWindow() {
   // Decide the name of the chat, depending on 1-on-1 or group chat
   const displayChatName = () => {
     if (chat.groupChat) {
-      // For group chats, display "Chat with" and names of buddies (excluding currentUser)
-      const otherBuddies = chat.buddies.filter(
-        (buddy) => buddy._id !== currentUser._id
-      );
-      const names = otherBuddies.map((buddy) => buddy.first_name).join(', ');
-      return `Chat with ${names}`;
+      if (chat.customName) {
+        return chat.name;
+      } else {
+        // For group chats, display "Chat with" and names of buddies (excluding currentUser)
+        const otherBuddies = chat.buddies.filter(
+          (buddy) => buddy._id !== currentUser._id
+        );
+        const names = otherBuddies.map((buddy) => buddy.first_name).join(', ');
+        return `Chat with ${names}`;
+      }
     } else {
       // For one-on-one chats, display the name of the other user (buddy)
       const otherBuddy = chat.buddies.find(
@@ -113,7 +117,10 @@ export default function ChatWindow() {
             </button>
             <h3 className="p-2">{displayChatName()}</h3>
           </div>
-          <div className="flex flex-col" style={{height: 'calc(100vh - 130px'}} >
+          <div
+            className="flex flex-col"
+            style={{ height: 'calc(100vh - 130px' }}
+          >
             <div
               ref={messageContainerRef}
               className="overflow-y-auto flex-1 p-2"

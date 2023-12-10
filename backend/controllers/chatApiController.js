@@ -50,6 +50,7 @@ exports.chat_create_post = [
     try {
       const chat = new Chat({
         name: req.body.name,
+        customName: req.body.customName,
         buddies: req.body.buddies,
         groupChat: req.body.groupChat,
       });
