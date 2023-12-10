@@ -5,8 +5,11 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
+  console.log("🚀 ~ file: AuthContext.jsx:8 ~ AuthProvider ~ loading:", loading)
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  console.log("🚀 ~ file: AuthContext.jsx:10 ~ AuthProvider ~ isLoggedIn:", isLoggedIn)
   const [currentUser, setCurrentUser] = useState('');
+  console.log("🚀 ~ file: AuthContext.jsx:10 ~ AuthProvider ~ currentUser:", currentUser)
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -16,7 +19,7 @@ const AuthProvider = ({ children }) => {
         // Access user information from the decoded token payload
         setCurrentUser(decodedToken.user); // Set the user data from the decoded token
         setIsLoggedIn(true);
-        setLoading(false)
+        setLoading(false);
       }
     }
   }, []);
@@ -24,9 +27,12 @@ const AuthProvider = ({ children }) => {
   const login = (user) => {
     setIsLoggedIn(true);
     setCurrentUser(user);
+    setLoading(false);
   };
 
   const logout = () => {
+    // Remove the 'token' from localStorage
+    localStorage.removeItem('token');
     setIsLoggedIn(false);
   };
 

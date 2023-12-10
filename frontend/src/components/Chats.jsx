@@ -5,8 +5,6 @@ import httpRequest from '../utils/apiServices';
 
 import ChatItem from './ChatItem';
 
-import { Container } from 'react-bootstrap';
-
 import plusInCircle from '../assets/images/950764.png';
 
 export default function Chats() {
@@ -17,6 +15,7 @@ export default function Chats() {
   const fetchData = async () => {
     try {
       const response = await httpRequest('GET', '/api/chats');
+      console.log("🚀 ~ file: Chats.jsx:20 ~ fetchData ~ response:", response)
       setData(response.data.chats_list);
     } catch (error) {
       console.log('🚀 ~ file: ChatWindow.jsx:10 ~ fetchData ~ error:', error);
