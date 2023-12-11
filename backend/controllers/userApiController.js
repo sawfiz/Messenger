@@ -86,10 +86,6 @@ exports.user_create_post = [
   validateInputs(),
   asyncHandler(async (req, res, next) => {
     const validationErrors = validationResult(req);
-    console.log(
-      '🚀 ~ file: userApiController.js:101 ~ asyncHandler ~ validationErrors:',
-      validationErrors
-    );
 
     if (!validationErrors.isEmpty()) {
       throw new CustomError(400, JSON.stringify(validationErrors));
@@ -108,11 +104,8 @@ exports.user_create_post = [
         const user = new User({
           first_name: req.body.first_name,
           last_name: req.body.last_name,
-          gender: req.body.gender,
           username: req.body.username,
           password: hashedPassword,
-          mobile: req.body.mobile,
-          email: req.body.email,
           photoUrl: req.file ? req.file.path : null,
         });
         const result = await user.save();

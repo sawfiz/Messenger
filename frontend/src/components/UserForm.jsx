@@ -26,6 +26,7 @@ const UserForm = ({ action }) => {
     username: '',
     password1: '',
     password2: '',
+    avatar: null,
   });
 
   const [match, setMatch] = useState(true);
@@ -116,7 +117,7 @@ const UserForm = ({ action }) => {
   const createuser = async () => {
     // Logic for creating a new user
     console.log('Perform POST request:', formData);
-    const response = await httpRequest('POST', '/api/users', formData);
+    const response = await httpRequest('POST', '/api/users', convertToFormData());
     if (response.error) {
       handleFormErrors(response);
     } else {
@@ -129,7 +130,7 @@ const UserForm = ({ action }) => {
   const updateuser = async () => {
     // Logic for updating an existing user
     console.log('Perform PUT request:', formData);
-    const response = await httpRequest('PUT', `/api/users/${id}`, formData);
+    const response = await httpRequest('PUT', `/api/users/${id}`, convertToFormData());
     if (response.error) {
       handleFormErrors(response);
     } else {
@@ -137,6 +138,17 @@ const UserForm = ({ action }) => {
       console.log('user updated successfully:', updateuser);
       navigate(`/users/${id}`);
     }
+  };
+
+  const convertToFormData = () => {
+    const formDataToSend = new FormData();
+
+    // Append each key-value pair from formData to FormData instance
+    for (const key in formData) {
+      formDataToSend.append(key, formData[key]);
+    }
+
+    return formDataToSend;
   };
 
   const handleFormErrors = (response) => {
