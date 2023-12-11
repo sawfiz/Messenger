@@ -13,13 +13,13 @@ schema
   .pre('find', function() {
     this.populate({
       path: 'buddies',
-      select: 'first_name last_name name'
+      select: 'first_name last_name name photoUrl'
     });
   })
   .pre('findOne', function() {
     this.populate({
       path: 'buddies',
-      select: 'first_name last_name name'
+      select: 'first_name last_name name photoUrl'
     });
   });
 

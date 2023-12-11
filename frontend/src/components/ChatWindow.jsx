@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import httpRequest from '../utils/apiServices';
 
+// Vite handles .env differently from create-react-app
+const BASE_URL = import.meta.env.VITE_BASE_URL; // Set the base URL
+
 // Contexts
 import { AuthContext } from '../contexts/AuthContext';
 
@@ -24,6 +27,9 @@ export default function ChatWindow() {
   const [loading, setLoading] = useState(true);
   const [chat, setChat] = useState(null);
   const [messages, setMessages] = useState([]);
+
+  const [chatName, setChatName] = useState('');
+  const [chatAvatar, setChatAvatar] = useState('/images/unknown.png');
 
   // Fetch chat info on mount
   const fetchChat = async () => {
@@ -58,6 +64,11 @@ export default function ChatWindow() {
     fetchData();
   }, []);
 
+  // set display names after loading is done
+  useEffect(() => {
+    if (loading === false) setChatTitle();
+  }, [loading]);
+
   const messageList = messages.map((message) => (
     <Message key={message._id} message={message} groupChat={chat.groupChat} />
   ));
@@ -73,24 +84,25 @@ export default function ChatWindow() {
   }, [messageList]);
 
   // Decide the name of the chat, depending on 1-on-1 or group chat
-  const displayChatName = () => {
+  const setChatTitle = () => {
     if (chat.groupChat) {
       if (chat.customName) {
-        return chat.name;
+        setChatName(chat.name);
       } else {
         // For group chats, display "Chat with" and names of buddies (excluding currentUser)
         const otherBuddies = chat.buddies.filter(
           (buddy) => buddy._id !== currentUser._id
         );
         const names = otherBuddies.map((buddy) => buddy.first_name).join(', ');
-        return `Chat with ${names}`;
+        setChatName(`Chat with ${names}`);
       }
     } else {
       // For one-on-one chats, display the name of the other user (buddy)
       const otherBuddy = chat.buddies.find(
         (buddy) => buddy._id !== currentUser._id
       );
-      return otherBuddy ? otherBuddy.name : ''; // Return the name if found, otherwise an empty string
+      setChatName(otherBuddy ? otherBuddy.name : ''); // Return the name if found, otherwise an empty string
+      setChatAvatar(otherBuddy.photoUrl ? `${BASE_URL}/${otherBuddy.photoUrl.substring(7)}` : '/images/unknown.png' );
     }
   };
 
@@ -111,11 +123,18 @@ export default function ChatWindow() {
         <p>Loading</p>
       ) : (
         <main>
-          <div className="flex">
+          <div className="flex items-end">
             <button className="btn" onClick={handleClick}>
               ⬅
             </button>
-            <h3 className="p-2">{displayChatName()}</h3>
+            <div className="w-12">
+              <img
+                className="w-10 h-10 object-cover object-center rounded-lg"
+                src={chatAvatar}
+                alt="groupc chat"
+              />
+            </div>
+            <h3 >{chatName}</h3>
           </div>
           <div
             className="flex flex-col"
