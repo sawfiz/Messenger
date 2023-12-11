@@ -24,6 +24,7 @@ function verifyJWT(req, res, next) {
 
         // Assign the currentUser to res.locals or req.locals to make it available in subsequent middleware or routes
         res.locals.currentUser = currentUser;
+        console.log("verified");
         next();
       } else {
         throw new CustomError(403, err.name);

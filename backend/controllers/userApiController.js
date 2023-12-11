@@ -41,7 +41,7 @@ const validateInputs = () => {
       .withMessage('Username must be between 4 to 8 characters.')
       .isAlphanumeric()
       .withMessage('First name has non-alphanumeric charecters.'),
-    body('password')
+    body('password1')
       .trim()
       .isLength({ min: 3 })
       .escape()
@@ -66,6 +66,7 @@ exports.users_list = [
 
 // Handle GET details of a specific user.
 exports.user_detail = [
+  verifyJWT,
   validateObjectId,
   asyncHandler(async (req, res, next) => {
     const [user] = await Promise.all([User.findById(req.params.id).exec()]);
@@ -100,7 +101,7 @@ exports.user_create_post = [
     });
     if (userExists) throw new CustomError(409, 'Athlete already exists');
 
-    bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
+    bcrypt.hash(req.body.password1, 10, async (err, hashedPassword) => {
       if (err) throw new CustomError(400, 'Error hasing password');
 
       try {
@@ -112,6 +113,7 @@ exports.user_create_post = [
           password: hashedPassword,
           mobile: req.body.mobile,
           email: req.body.email,
+          photoUrl: req.file ? req.file.path : null,
         });
         const result = await user.save();
         res.status(201).json({ message: 'Success' });

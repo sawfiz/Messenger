@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
 // const multer = require('multer');
+const { verifyJWT } = require('../middleware/verifyJWT');
 
 const message_api_controller = require('../controllers/messageApiController');
+
+router.use(verifyJWT)
 
 // Define the storage for the uploaded files
 // const storage = multer.diskStorage({

@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const { verifyJWT } = require('../middleware/verifyJWT');
 
 const chat_api_controller = require('../controllers/chatApiController');
+
+router.use(verifyJWT)
 
 /* chat requests */
 // GET request for list of all chats

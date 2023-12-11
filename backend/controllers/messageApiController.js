@@ -25,6 +25,7 @@ exports.messages_list = [
 
 // Handle POST to create an message
 exports.message_create_post = [
+  verifyJWT,
   (req, res, next) => {
     console.log('POST received');
     console.log(req.body);

@@ -6,6 +6,7 @@ const schema = new Schema({
   last_name: {type: String, required: true},
   username: {type: String, required: true},
   password: {type: String, required: true},
+  photoUrl: { type: String },
 },
 {
   toJSON: { virtuals: true }, // <-- include virtuals in `JSON.stringify()`

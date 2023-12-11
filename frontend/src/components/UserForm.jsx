@@ -77,23 +77,20 @@ const UserForm = ({ action }) => {
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
 
-    let inputValue;
-    if (type === 'checkbox') {
-      inputValue = checked;
+    if (type === 'file') {
+      const file = event.target.files[0];
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        avatar: file, // Save the selected file to state
+      }));
     } else {
-      inputValue = value;
-    }
-
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: inputValue,
-    }));
-
-    if (name === 'password1') {
-      setFormData((prevFormData) => ({ ...prevFormData, password: value }));
+      const inputValue = type === 'checkbox' ? checked : value;
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: inputValue,
+      }));
     }
   };
-
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -243,6 +240,16 @@ const UserForm = ({ action }) => {
             </Col>
           </Form.Group>
           {showValidationError('last_name')}
+
+          <InputGroup className="mb-2">
+          <InputGroup.Text>Avatar</InputGroup.Text>
+          <Form.Control
+            type="file"
+            name="avatar"
+            accept="image/*"
+            onChange={handleChange}
+          />
+        </InputGroup>
 
           {action === 'Create' && (
             <div>
