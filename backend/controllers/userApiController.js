@@ -69,7 +69,7 @@ exports.user_detail = [
   verifyJWT,
   validateObjectId,
   asyncHandler(async (req, res, next) => {
-    const [user] = await Promise.all([User.findById(req.params.id).exec()]);
+    const [user] = await User.findById(req.params.id).exec();
 
     if (user === null) {
       const err = new Error('user not found');
@@ -117,38 +117,47 @@ exports.user_create_post = [
   }),
 ];
 
-// Handle UPDATE/PUT an user
 exports.user_update = [
   validateObjectId,
   verifyJWT,
   validateInputs(),
-
   asyncHandler(async (req, res, next) => {
     console.log('Validated');
     const validationErrors = validationResult(req);
-    const user = new User({
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      gender: req.body.gender,
-      username: req.params.username,
-      password: req.params.hashedPassword,
-      mobile: req.body.mobile,
-      email: req.body.email,
-      role: req.body.role,
-      _id: req.params.id,
-    });
 
     if (!validationErrors.isEmpty()) {
-      throw new CustomError(400, JSON.stringify(validationErrors));
-    } else {
-      console.log('updated user');
-      // Data from form is valid. Update the record.
-      const updatedAthlete = await User.findByIdAndUpdate(
-        req.params.id,
-        { $set: user },
-        { new: true } // Returns the modified document
-      );
-      res.status(201).json({ message: 'Success!' });
+      return res.status(400).json({ errors: validationErrors.array() });
+    }
+
+    try {
+      bcrypt.hash(req.body.password1, 10, async (err, hashedPassword) => {
+        if (err) {
+          return next(new CustomError(400, 'Error hashing password'));
+        }
+
+        const userUpdates = {
+          first_name: req.body.first_name,
+          last_name: req.body.last_name,
+          username: req.params.username,
+          photoUrl: req.file ? req.file.path : null,
+          password: hashedPassword,
+        };
+
+        const updatedUser = await User.findByIdAndUpdate(
+          req.params.id,
+          { $set: userUpdates },
+          { new: true } // Returns the modified document
+        );
+
+        if (!updatedUser) {
+          return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(201).json({ message: 'Success!', user: updatedUser });
+      });
+    } catch (error) {
+      console.log('Error:', error);
+      return next(new CustomError(500, 'Server Error'));
     }
   }),
 ];

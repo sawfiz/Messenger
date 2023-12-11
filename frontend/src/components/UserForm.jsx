@@ -13,7 +13,8 @@ import httpRequest from '../utils/apiServices';
 import { Button, Form, Row, Col, InputGroup } from 'react-bootstrap';
 
 const UserForm = ({ action }) => {
-  const { id } = useParams();
+  const { currentUser } = useContext(AuthContext);
+  console.log("🚀 ~ file: UserForm.jsx:17 ~ currentUser:", currentUser)
   const navigate = useNavigate();
   const { logout } = useContext(AuthContext);
   const { showModal, closeModal } = useModal();
@@ -34,24 +35,9 @@ const UserForm = ({ action }) => {
 
   // If an id is provided in the route, GET data of the user
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await httpRequest(
-        'GET',
-        `/api/users/${id}`,
-        null,
-        'user'
-      );
-
-      if (response.error) {
-        displayErrorModal(response);
-      } else {
-        setFormData(response.data.user);
-      }
-    };
-
-    if (id) fetchData();
+    setFormData(currentUser)
     setLoading(false);
-  }, [id]); // Include id as it is used in the useEffect
+  }, []); // Include id as it is used in the useEffect
 
   // Display error modal
   const displayErrorModal = (response) => {
@@ -106,7 +92,7 @@ const UserForm = ({ action }) => {
     setMatch(passwordMatch);
 
     if (passwordMatch) {
-      if (id) {
+      if (action === 'Update') {
         updateuser();
       } else {
         createuser();
@@ -117,7 +103,11 @@ const UserForm = ({ action }) => {
   const createuser = async () => {
     // Logic for creating a new user
     console.log('Perform POST request:', formData);
-    const response = await httpRequest('POST', '/api/users', convertToFormData());
+    const response = await httpRequest(
+      'POST',
+      '/api/users',
+      convertToFormData()
+    );
     if (response.error) {
       handleFormErrors(response);
     } else {
@@ -130,13 +120,18 @@ const UserForm = ({ action }) => {
   const updateuser = async () => {
     // Logic for updating an existing user
     console.log('Perform PUT request:', formData);
-    const response = await httpRequest('PUT', `/api/users/${id}`, convertToFormData());
+    console.log("🚀 ~ file: UserForm.jsx:123 ~ updateuser ~ formData:", formData)
+    const response = await httpRequest(
+      'PUT',
+      `/api/users/${currentUser._id}`,
+      convertToFormData()
+    );
     if (response.error) {
       handleFormErrors(response);
     } else {
       // Handle success, reset form, or navigate to a different page
       console.log('user updated successfully:', updateuser);
-      navigate(`/users/${id}`);
+      navigate(`/chats`);
     }
   };
 
@@ -254,96 +249,74 @@ const UserForm = ({ action }) => {
           {showValidationError('last_name')}
 
           <InputGroup className="mb-2">
-          <InputGroup.Text>Avatar</InputGroup.Text>
-          <Form.Control
-            type="file"
-            name="avatar"
-            accept="image/*"
-            onChange={handleChange}
-          />
-        </InputGroup>
+            <InputGroup.Text>Avatar</InputGroup.Text>
+            <Form.Control
+              type="file"
+              name="avatar"
+              accept="image/*"
+              onChange={handleChange}
+            />
+          </InputGroup>
 
-          {action === 'Create' && (
-            <div>
-              <hr />
+          <div>
+            <hr />
 
-              <Form.Group as={Row} controlId="formUsername">
-                <Form.Label column sm="4">
-                  Username:
-                </Form.Label>
-                <Col sm="8">
-                  <Form.Control
-                    type="text"
-                    placeholder="ubolt"
-                    name="username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    required
-                  />
-                </Col>
-              </Form.Group>
-              {showValidationError('username')}
-
-              <Form.Group as={Row} controlId="formPassword1">
-                <Form.Label column sm="6">
-                  Password:
-                </Form.Label>
-                <Col sm="6">
-                  <Form.Control
-                    type="password"
-                    name="password1"
-                    placeholder="Password"
-                    value={formData.password1}
-                    required
-                    onChange={handleChange}
-                  />
-                </Col>
-              </Form.Group>
-              {showValidationError('password')}
-
-              <Form.Group as={Row} controlId="formPassword2">
-                <Form.Label column sm="6">
-                  Re-enter Password:
-                </Form.Label>
-                <Col sm="6">
-                  <Form.Control
-                    type="password"
-                    name="password2"
-                    placeholder="Password"
-                    value={formData.password2}
-                    required
-                    onChange={handleChange}
-                  />
-                </Col>
-              </Form.Group>
-              {match ? (
-                ''
-              ) : (
-                <p className="text-danger">Passwords do not match.</p>
-              )}
-            </div>
-          )}
-          {action === 'Update' && (
-            <div>
-              <div className="flex justify-between w-80 items-center mb-2">
-                <div>
-                  <label>Role</label>
-                </div>
-                <select
-                  name="role"
-                  value={formData.role}
+            <Form.Group as={Row} controlId="formUsername">
+              <Form.Label column sm="4">
+                Username:
+              </Form.Label>
+              <Col sm="8">
+                <Form.Control
+                  type="text"
+                  placeholder="ubolt"
+                  name="username"
+                  value={formData.username}
                   onChange={handleChange}
                   required
-                  className="p-1 ml-4 w-20"
-                >
-                  <option value="">-</option>
-                  <option value="visitor">Visitor</option>
-                  <option value="parent">Parent</option>
-                  <option value="coach">Coach</option>
-                </select>
-              </div>
-            </div>
-          )}
+                />
+              </Col>
+            </Form.Group>
+            {showValidationError('username')}
+
+            <Form.Group as={Row} controlId="formPassword1">
+              <Form.Label column sm="6">
+                Password:
+              </Form.Label>
+              <Col sm="6">
+                <Form.Control
+                  type="password"
+                  name="password1"
+                  placeholder="Password"
+                  value={formData.password1}
+                  required
+                  onChange={handleChange}
+                />
+              </Col>
+            </Form.Group>
+            {showValidationError('password')}
+
+            <Form.Group as={Row} controlId="formPassword2">
+              <Form.Label column sm="6">
+                Re-enter Password:
+              </Form.Label>
+              <Col sm="6">
+                <Form.Control
+                  type="password"
+                  name="password2"
+                  placeholder="Password"
+                  value={formData.password2}
+                  required
+                  onChange={handleChange}
+                />
+              </Col>
+            </Form.Group>
+            {match ? (
+              ''
+            ) : (
+              <p className="text-danger">Passwords do not match.</p>
+            )}
+          </div>
+
           <div className="flex justify-around mt-4">
             <Button variant="secondary" type="cancel" onClick={handleCancel}>
               Cancel

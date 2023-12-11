@@ -27,7 +27,8 @@ export default function DynamicCheckBox({ data, list, addItem, removeItem }) {
   // (after the 'public/' part) to the end of the string, effectively removing the 'public/'
   // part from the data.photoUrl.
   const imgSrc = data.photoUrl
-  ? `${BASE_URL}/${data.photoUrl.substring(7)}`
+    // Remove 'public/' from photoUrl
+    ? `${BASE_URL}/${data.photoUrl.substring(7)}`
     : '/images/unknown.png';
 
   const image = (
@@ -42,7 +43,7 @@ export default function DynamicCheckBox({ data, list, addItem, removeItem }) {
     <div className="m-0">
       <div className="h-10 outline-dashed outline-1 outline-pink-300 flex justify-between items-center p-1">
         <div className="w-8 h-8">{image}</div>
-        <div className='flex-1 align-left ml-1'>{data.name}</div>
+        <div className="flex-1 align-left ml-1">{data.name}</div>
         <input type="checkbox" checked={isChecked} onChange={handleChange} />
       </div>
     </div>

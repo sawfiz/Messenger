@@ -23,13 +23,13 @@ const upload = multer({ storage: storage });
 router.get('/',  user_api_controller.users_list);
 
 // GET request for one user.
-// router.get('/:id', user_api_controller.user_detail);
+router.get('/:id', user_api_controller.user_detail);
 
 // POST request for creating user.
 router.post('/', upload.single('avatar'), user_api_controller.user_create_post);
 
 // PUT request to update user.
-// router.put('/:id', user_api_controller.user_update);
+router.put('/:id',  upload.single('avatar'), user_api_controller.user_update);
 
 // DELETE request to delete user.
 // router.delete('/:id', user_api_controller.user_delete);
