@@ -138,9 +138,9 @@ exports.user_update = [
         const userUpdates = {
           first_name: req.body.first_name,
           last_name: req.body.last_name,
-          username: req.params.username,
-          photoUrl: req.file ? req.file.path : null,
+          username: req.body.username,
           password: hashedPassword,
+          photoUrl: req.file ? req.file.path : req.body.photoUrl,
         };
 
         const updatedUser = await User.findByIdAndUpdate(
