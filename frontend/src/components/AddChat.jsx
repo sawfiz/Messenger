@@ -48,10 +48,10 @@ export default function AddChat() {
       }));
     } else if (formData.buddies.length > 2) {
       const firstNames = formData.buddies
-        .slice(1)
+        // .slice(1)
         .map((buddy) => buddy.first_name);
       // .map((buddy) => buddy.name.split(' ')[0]); // Extracting first names except the first buddy
-      const groupName = `Chat with ${firstNames.join(', ')}`;
+      const groupName = `Chat: ${firstNames.join(', ')}`;
       setFormData((prevData) => ({
         ...prevData,
         name: groupName,

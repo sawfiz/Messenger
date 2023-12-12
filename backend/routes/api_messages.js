@@ -25,6 +25,8 @@ router.use(verifyJWT)
 // !Make sure /all route is place before /:id
 router.get('/', message_api_controller.messages_list);
 
+router.get('/latest', message_api_controller.latest_message);
+
 // POST request for creating message.
 // router.post(
 //   '/',

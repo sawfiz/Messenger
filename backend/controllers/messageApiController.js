@@ -16,7 +16,23 @@ exports.messages_list = [
     const chatId = req.query.chatId;
     const messages_list = await Message.find({ chatId })
       .populate()
-      .sort({ data: 1 })
+      .sort({ date: 1 })
+      .exec();
+
+    res.status(200).json({ messages_list });
+  }),
+];
+
+// Handle GET all messages.
+exports.latest_message = [
+  verifyJWT,
+  asyncHandler(async (req, res, next) => {
+    console.log("fetching the latest message");
+    const chatId = req.query.chatId;
+    const messages_list = await Message.find({ chatId })
+      .populate()
+      .sort({ date: -1 })
+      .limit(1)
       .exec();
 
     res.status(200).json({ messages_list });
@@ -42,7 +58,7 @@ exports.message_create_post = [
     // }
 
     const message = new Message({
-      senderId: req.body.senderId,
+      sender: req.body.sender,
       chatId: req.body.chatId,
       text: req.body.text,
       date: req.body.date,

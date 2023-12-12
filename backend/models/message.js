@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
-  senderId: { type: Schema.Types.ObjectId, ref: 'User' },
+  sender: { type: Schema.Types.ObjectId, ref: 'User' },
   chatId: { type: String, require: true, maxlength: 100 },
   text: { type: String, require: true, maxlength: 240 },
   date: { type: Date },
@@ -13,13 +13,13 @@ const schema = new Schema({
 schema
   .pre('find', function() {
     this.populate({
-      path: 'senderId',
+      path: 'sender',
       select: 'first_name last_name name'
     });
   })
   .pre('findOne', function() {
     this.populate({
-      path: 'senderId',
+      path: 'sender',
       select: 'first_name last_name name'
     });
   });

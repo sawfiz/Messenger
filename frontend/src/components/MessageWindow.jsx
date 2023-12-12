@@ -26,11 +26,11 @@ export default function MessageWindow({ onSendMessage, chatId }) {
     event.preventDefault();
 
     if (!formData.text) return;
-    
+
     // Add a timestamp to formData
     const updatedFormData = {
       ...formData,
-      senderId: currentUser._id,
+      sender: currentUser._id,
       date: new Date(),
     };
     console.log(
@@ -52,7 +52,7 @@ export default function MessageWindow({ onSendMessage, chatId }) {
       console.log('Message sent successfully:', response);
       onSendMessage();
       setFormData({
-        senderId: currentUser._id,
+        sender: currentUser._id,
         chatId: chatId,
       });
       setFormData((prev) => ({ ...prev, text: '' }));
