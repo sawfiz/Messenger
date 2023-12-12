@@ -15,8 +15,17 @@ export default function Chats() {
   const fetchData = async () => {
     try {
       const response = await httpRequest('GET', '/api/chats');
-      console.log("🚀 ~ file: Chats.jsx:18 ~ fetchData ~ response:", response.data.chats_list)
-      setData(response.data.chats_list);
+
+      // Filter out chats with not latest messages. Basically filter out empty chats.
+      const filteredChats = response.data.chats_list.filter((chat) => chat.latest)
+      console.log("🚀 ~ file: Chats.jsx:20 ~ fetchData ~ filteredChats:", filteredChats)
+      const sortedChats = filteredChats.slice().sort((a, b) => {
+        // Sort in descending order (latest date first)
+        return new Date(b.latest) - new Date(a.latest);
+      });
+      console.log("🚀 ~ file: Chats.jsx:25 ~ sortedChats ~ sortedChats:", sortedChats)
+
+      setData(sortedChats);
     } catch (error) {
       console.log('🚀 ~ file: ChatWindow.jsx:10 ~ fetchData ~ error:', error);
     }
