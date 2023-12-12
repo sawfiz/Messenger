@@ -35,7 +35,6 @@ export default function ChatItem({ chat }) {
         (buddy) => buddy._id !== currentUser._id
       );
       setChatName(otherBuddy.name);
-      console.log("🚀 ~ file: ChatItem.jsx:37 ~ displayChatName ~ otherBuddy:", otherBuddy)
       setChatAvatar(otherBuddy.photoUrl ? `${BASE_URL}/${otherBuddy.photoUrl.substring(7)}` : '/images/unknown.png' );
     }
   };

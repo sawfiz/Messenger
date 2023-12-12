@@ -29,7 +29,7 @@ export default function ChatWindow() {
   const [messages, setMessages] = useState([]);
 
   const [chatName, setChatName] = useState('');
-  const [chatAvatar, setChatAvatar] = useState('/images/unknown.png');
+  const [chatAvatar, setChatAvatar] = useState('/images/groupchat.png');
 
   // Fetch chat info on mount
   const fetchChat = async () => {

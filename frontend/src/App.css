@@ -52,7 +52,7 @@ main {
   padding: 8px 12px; /* Padding around the message content */
   margin: 4px; /* Margin between message bubbles */
   border-radius: 8px; /* Rounded corners for the bubble */
-  background-color: #00c0c0; /* Background color for the bubble */
+  background-color: #fff0f0; /* Background color for the bubble */
   /* word-wrap: break-all; Enable word wrap for long messages */
   max-width: 80%; /* Maximum width of the message bubble */
   min-width: 100px; /* Minimum width of the message bubble for short messages */

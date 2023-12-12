@@ -5,10 +5,6 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
-  console.log(
-    '🚀 ~ file: AuthContext.jsx:9 ~ AuthProvider ~ loading:',
-    loading
-  );
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState('');
 
@@ -24,10 +20,8 @@ const AuthProvider = ({ children }) => {
 
         // Check if the token has expired
         if (expirationTime < currentTime) {
-          console.log('Token has expired');
           logout();
         } else {
-          console.log('Token is still valid');
           // Access user information from the decoded token payload
           setCurrentUser(decodedToken.user); // Set the user data from the decoded token
           setIsLoggedIn(true);

@@ -24,6 +24,9 @@ export default function MessageWindow({ onSendMessage, chatId }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!formData.text) return;
+    
     // Add a timestamp to formData
     const updatedFormData = {
       ...formData,
@@ -55,6 +58,7 @@ export default function MessageWindow({ onSendMessage, chatId }) {
       setFormData((prev) => ({ ...prev, text: '' }));
     }
   };
+
   return (
     <div>
       <div className="p-2">
