@@ -96,6 +96,7 @@ export default function ChatWindow() {
         const names = otherBuddies.map((buddy) => buddy.first_name).join(', ');
         setChatName(`Chat with ${names}`);
       }
+      setChatAvatar(chat.photoUrl ? `${BASE_URL}/${chat.photoUrl.substring(7)}` : '/images/groupchat.png' );
     } else {
       // For one-on-one chats, display the name of the other user (buddy)
       const otherBuddy = chat.buddies.find(
@@ -134,7 +135,7 @@ export default function ChatWindow() {
                 alt="groupc chat"
               />
             </div>
-            <h3 >{chatName}</h3>
+            <h3 className='ml-2'>{chatName}</h3>
           </div>
           <div
             className="flex flex-col"

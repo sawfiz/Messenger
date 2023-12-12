@@ -6,7 +6,8 @@ const schema = new Schema({
   name: {type: String, required: true},
   customName: {type: Boolean, default: false},
   buddies: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-  groupChat: {type: Boolean, default: false}
+  groupChat: {type: Boolean, default: false},
+  photoUrl: { type: String },
 });
 
 schema

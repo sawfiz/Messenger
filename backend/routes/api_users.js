@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const { verifyJWT } = require('../middleware/verifyJWT');
 const multer = require('multer');
 
 const user_api_controller = require('../controllers/userApiController');
+
+router.use(verifyJWT);
 
 // Define the storage for the uploaded files
 const storage = multer.diskStorage({
@@ -17,10 +20,11 @@ const storage = multer.diskStorage({
 
 // Initialize Multer with the defined storage
 const upload = multer({ storage: storage });
+
 /* user requests */
 // GET request for list of all users
 // !Make sure /all route is place before /:id
-router.get('/',  user_api_controller.users_list);
+router.get('/', user_api_controller.users_list);
 
 // GET request for one user.
 router.get('/:id', user_api_controller.user_detail);
@@ -29,7 +33,7 @@ router.get('/:id', user_api_controller.user_detail);
 router.post('/', upload.single('avatar'), user_api_controller.user_create_post);
 
 // PUT request to update user.
-router.put('/:id',  upload.single('avatar'), user_api_controller.user_update);
+router.put('/:id', upload.single('avatar'), user_api_controller.user_update);
 
 // DELETE request to delete user.
 // router.delete('/:id', user_api_controller.user_delete);

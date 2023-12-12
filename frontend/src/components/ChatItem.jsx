@@ -28,7 +28,7 @@ export default function ChatItem({ chat }) {
         const names = otherBuddies.map((buddy) => buddy.first_name).join(', ');
         setChatName(`Chat with ${names}`);
       }
-      setChatAvatar('/images/groupchat.png' );
+      setChatAvatar(chat.photoUrl ? `${BASE_URL}/${chat.photoUrl.substring(7)}` : '/images/groupchat.png' );
     } else {
       // For one-on-one chats, display the name of the other user (buddy)
       const otherBuddy = chat.buddies.find(

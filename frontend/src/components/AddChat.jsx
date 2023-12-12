@@ -78,15 +78,11 @@ export default function AddChat() {
 
   const handleSaveModal = () => {
     // Handle saving the form data or performing any actions
-    console.log('Form data:', formData);
+    handleSave();
     handleCloseModal();
   };
 
   const handleChangeGroupName = (e) => {
-    console.log(
-      '🚀 ~ file: AddChat.jsx:75 ~ handleChangeGroupChatName ~ e:',
-      e.target
-    );
     setFormData((prevData) => ({
       ...prevData,
       name: e.target.value,
@@ -99,14 +95,12 @@ export default function AddChat() {
     setFormData((prevData) => ({
       ...prevData,
       avatar: file,
-      customAvatar: true,
     }));
   };
 
   const handleSubmit = async () => {
-    console.log(formData);
     if (!formData.groupChat) {
-      handleSave()
+      handleSave();
     } else {
       // Show modal for editing group chat name and avatar
 
@@ -116,7 +110,11 @@ export default function AddChat() {
 
   const handleSave = async () => {
     try {
-      const response = await httpRequest('POST', '/api/chats', convertToFormData());
+      const response = await httpRequest(
+        'POST',
+        '/api/chats',
+        convertToFormData('buddies')
+      );
       console.log(
         '🚀 ~ file: AddChat.jsx:64 ~ handleClick ~ response:',
         response
@@ -127,19 +125,21 @@ export default function AddChat() {
     } catch (error) {
       console.log('🚀 ~ file: AddChat.jsx:63 ~ handleClick ~ error:', error);
     }
-  }
+  };
 
-  const convertToFormData = () => {
+  // Buddies is an array of objects, need to be treated differently
+  const convertToFormData = (exception) => {
+    console.log(formData);
     const formDataToSend = new FormData();
 
     // Append each key-value pair from formData to FormData instance
     for (const key in formData) {
-      formDataToSend.append(key, formData[key]);
+      if (key !== exception) formDataToSend.append(key, formData[key]);
     }
+    formDataToSend.append('buddies', JSON.stringify(formData.buddies));
 
     return formDataToSend;
   };
-
 
   return (
     <main>
@@ -188,7 +188,7 @@ export default function AddChat() {
               <Form.Label>Avatar</Form.Label>
               <Form.Control
                 type="file"
-                name='avatar'
+                name="avatar"
                 accept="image/*"
                 onChange={handleChangeGroupAvatar}
               />

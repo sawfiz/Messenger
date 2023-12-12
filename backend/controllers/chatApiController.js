@@ -41,7 +41,10 @@ exports.chat_detail = [
 exports.chat_create_post = [
   // verifyJWT,
   asyncHandler(async (req, res, next) => {
-    const { buddies } = req.body;
+    console.log("🚀 ~ file: chatApiController.js:44 ~ asyncHandler ~ req.body:", req.body)
+    console.log("🚀 ~ file: chatApiController.js:44 ~ asyncHandler ~ req.file:", req.file)
+
+    const buddies  = JSON.parse(req.body.buddies);
 
     const existingChat = await Chat.findOne({buddies}, '').exec();
 
@@ -53,13 +56,15 @@ exports.chat_create_post = [
       const chat = new Chat({
         name: req.body.name,
         customName: req.body.customName,
-        buddies: req.body.buddies,
+        buddies: buddies,
         groupChat: req.body.groupChat,
+        photoUrl: req.file ? req.file.path : req.body.photoUrl,
       });
       const result = await chat.save();
       res.status(201).json({ message: result });
     } catch (err) {
-      throw new CustomError(500, 'Erro saving chat');
+      console.log("🚀 ~ file: chatApiController.js:63 ~ asyncHandler ~ err:", err)
+      throw new CustomError(500, 'Error saving chat');
     }
   }),
 ];
