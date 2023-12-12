@@ -15,6 +15,7 @@ export default function Chats() {
   const fetchData = async () => {
     try {
       const response = await httpRequest('GET', '/api/chats');
+      console.log("🚀 ~ file: Chats.jsx:18 ~ fetchData ~ response:", response.data.chats_list)
       setData(response.data.chats_list);
     } catch (error) {
       console.log('🚀 ~ file: ChatWindow.jsx:10 ~ fetchData ~ error:', error);
@@ -24,6 +25,8 @@ export default function Chats() {
   useEffect(() => {
     fetchData();
   }, []);
+
+
 
   const chatList = data.map((chat) => <ChatItem key={chat._id} chat={chat} />);
 

@@ -17,23 +17,14 @@ export default function ChatItem({ chat }) {
   const [chatAvatar, setChatAvatar] = useState('/images/unknown.png');
 
   const [latestMessage, setLatestMessage] = useState(null);
-  console.log(
-    '🚀 ~ file: ChatItem.jsx:17 ~ ChatItem ~ lastestMessage:',
-    latestMessage
-  );
 
   // Get the latest message of this chat
   useEffect(() => {
     const fetchLatestMessage = async () => {
       try {
-        console.log('chat.id', chat._id);
         const response = await httpRequest(
           'GET',
           `/api/messages/latest?chatId=${chat._id}`
-        );
-        console.log(
-          '🚀 ~ file: ChatItem.jsx:22 ~ fetchLatestMessage ~ response.data.messages_list:',
-          response.data.messages_list
         );
         setLatestMessage(response.data.messages_list[0]);
       } catch (error) {
@@ -138,7 +129,7 @@ export default function ChatItem({ chat }) {
                 {lastestMessageEl()}
               </div>
               <div className="message-date absolute bottom-1 right-2">
-                {latestMessage ? formatDate(latestMessage.date) : ''}
+                {chat.latest ? formatDate(chat.latest) : ''}
               </div>
             </div>
           </Card.Body>

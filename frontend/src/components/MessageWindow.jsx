@@ -37,25 +37,30 @@ export default function MessageWindow({ onSendMessage, chatId }) {
       '🚀 ~ file: MessageWindow.jsx:30 ~ handleSubmit ~ updatedFormData:',
       updatedFormData
     );
-    const response = await httpRequest(
-      'POST',
-      '/api/messages',
-      updatedFormData
-    );
-    if (response.error) {
-      console.log(
-        '🚀 ~ file: MessageWindow.jsx:21 ~ handleSubmit ~ response.error:',
-        response.error
+
+    try {
+      const response = await httpRequest(
+        'POST',
+        '/api/messages',
+        updatedFormData
       );
-    } else {
-      // Handle success, reset form, or navigate to a different page
+
       console.log('Message sent successfully:', response);
+
+      const response2 = await httpRequest('PATCH', `/api/chats/${chatId}`, {latest: new Date()})
+      console.log("🚀 ~ file: MessageWindow.jsx:51 ~ handleSubmit ~ response2:", response2)
+
       onSendMessage();
       setFormData({
         sender: currentUser._id,
         chatId: chatId,
       });
       setFormData((prev) => ({ ...prev, text: '' }));
+    } catch (error) {
+      console.log(
+        '🚀 ~ file: MessageWindow.jsx:56 ~ handleSubmit ~ error:',
+        error
+      );
     }
   };
 

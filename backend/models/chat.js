@@ -8,6 +8,7 @@ const schema = new Schema({
   buddies: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   groupChat: {type: Boolean, default: false},
   photoUrl: { type: String },
+  latest: {type: Date}
 });
 
 schema

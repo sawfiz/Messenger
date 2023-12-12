@@ -35,6 +35,9 @@ router.post('/', upload.single('avatar'), chat_api_controller.chat_create_post);
 // PUT request to update chat.
 // router.put('/:id', chat_api_controller.chat_update);
 
+// PATCH request to update a particular field
+router.patch('/:id', chat_api_controller.chat_patch)
+
 // DELETE request to delete chat.
 // router.delete('/:id', chat_api_controller.chat_delete);
 
