@@ -43,7 +43,7 @@ export const ModalProvider = ({ children }) => {
 };
 
 // Reusable modal component
- export const CustomModal = ({ show, handleClose, title, body, primaryAction }) => {
+ export const CustomModal = ({ show, handleClose, title, body, primaryAction  }) => {
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>

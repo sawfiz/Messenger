@@ -1,7 +1,8 @@
-import React, { useState, useContext } from 'react';
+// Library
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { Navbar, Nav, Container, Modal, Button } from 'react-bootstrap';
+import { Navbar, Nav, Container } from 'react-bootstrap';
 import httpRequest from '../utils/apiServices';
 
 // Contexts

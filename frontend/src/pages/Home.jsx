@@ -1,11 +1,11 @@
 // Libraries
-import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext, useEffect } from 'react';
 
-import httpRequest  from '../utils/apiServices';
+import httpRequest from '../utils/apiServices';
 
 // Contexts
 import { AuthContext } from '../contexts/AuthContext';
+import { LayoutContext } from '../contexts/LayoutContext';
 import { useModal, InfoModal } from '../contexts/ModalContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,6 +17,8 @@ import { Form, Row, Col, Button } from 'react-bootstrap';
 export default function Home() {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
+  const { setShowHeader } = useContext(LayoutContext);
+
   const { showModal, closeModal } = useModal();
 
   const [loading, setLoading] = useState(false);
@@ -25,6 +27,14 @@ export default function Home() {
     password: '',
   });
 
+  useEffect(() => {
+    setShowHeader(false); // Set the header to show when Home component loads
+    return () => {
+      setShowHeader(true); // Set the header to hide when navigating away from Home
+    };
+  }, [setShowHeader]); // SetShowHeader is used as a dependency to ensure useEffect runs on its change
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
@@ -32,9 +42,9 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true)
-    const response = await httpRequest('POST', '/login', formData );
-    setLoading(false)
+    setLoading(true);
+    const response = await httpRequest('POST', '/login', formData);
+    setLoading(false);
 
     if (response.error) {
       // Handle error and show modal
@@ -59,65 +69,65 @@ export default function Home() {
   };
 
   return (
-    <div
-      className="d-flex align-items-center justify-content-center"
-      style={{
-        minHeight: '100vh',
-        backgroundImage: 'url("../src/assets/images/chat-time.webp")',
-        backgroundSize: '250px 250px',
-        backgroundPosition: 'center',
-        // background: 'radial-gradient(circle, #ffffff 0%, #020222 100%)',
-        // background: 'linear-gradient(to bottom, #ffffff, #f20202)',
-      }}
-    >
+
       <div
-        className="rounded-lg bg-white shadow-custom"
-        style={{ maxWidth: '300px', width: '100%' }}
+        className="flex items-center justify-center"
+        style={{
+          height: 'calc(100vh - 1.25rem)',
+          backgroundImage: 'url("../src/assets/images/chat-time.webp")',
+          backgroundSize: '250px 250px',
+          backgroundPosition: 'center',
+          // background: 'radial-gradient(circle, #ffffff 0%, #020222 100%)',
+          // background: 'linear-gradient(to bottom, #ffffff, #f20202)',
+        }}
       >
-        <h2 className="text-center mb-4 p-2 bg-slate-700 text-white rounded-t-lg">Messenger</h2>
-        <Form onSubmit={handleSubmit} className='px-4'>
-          <Form.Group as={Row} controlId="formUsername">
-            <Form.Label column sm="4">
-              Username:
-            </Form.Label>
-            <Col sm="8">
-              <Form.Control
-                type="text"
-                placeholder="Enter username"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-              />
-            </Col>
-          </Form.Group>
-
-          <div className="h-2"></div>
-
-          <Form.Group as={Row} controlId="formPassword">
-            <Form.Label column sm="4">
-              Password:
-            </Form.Label>
-            <Col sm="8">
-              <Form.Control
-                type="password"
-                placeholder="Enter password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-              />
-            </Col>
-          </Form.Group>
-
-          <Button variant="primary" type="submit" className="w-100 mt-2">
-            Login
-          </Button>
-        </Form>
-        <hr></hr>
-
-        <p className="text-center mt-3">
-          Don't have an account? <a href="/signup">Sign Up</a>
-        </p>
+        <div
+          className="rounded-lg bg-white shadow-custom"
+          style={{ maxWidth: '300px', width: '100%' }}
+        >
+          <h2 className="text-center mb-4 p-2 bg-slate-700 text-white rounded-t-lg">
+            Messenger
+          </h2>
+          <Form onSubmit={handleSubmit} className="px-4">
+            <Form.Group as={Row} controlId="formUsername">
+              <Form.Label column sm="4">
+                Username:
+              </Form.Label>
+              <Col sm="8">
+                <Form.Control
+                  type="text"
+                  placeholder="Enter username"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                />
+              </Col>
+            </Form.Group>
+            <div className="h-2"></div>
+            <Form.Group as={Row} controlId="formPassword">
+              <Form.Label column sm="4">
+                Password:
+              </Form.Label>
+              <Col sm="8">
+                <Form.Control
+                  type="password"
+                  placeholder="Enter password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
+              </Col>
+            </Form.Group>
+            <Button variant="primary" type="submit" className="w-100 mt-2">
+              Login
+            </Button>
+          </Form>
+          <hr></hr>
+          <p className="text-center mt-3">
+            Don't have an account? <a href="/signup">Sign Up</a>
+          </p>
+        </div>
       </div>
-    </div>
+
   );
 }
