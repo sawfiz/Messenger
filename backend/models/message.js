@@ -8,19 +8,20 @@ const schema = new Schema({
   chatId: { type: String, require: true, maxlength: 100 },
   text: { type: String, require: true, maxlength: 240 },
   date: { type: Date },
+  attachmentUrl: { type: String },
 });
 
 schema
-  .pre('find', function() {
+  .pre('find', function () {
     this.populate({
       path: 'sender',
-      select: 'first_name last_name name'
+      select: 'first_name last_name name',
     });
   })
-  .pre('findOne', function() {
+  .pre('findOne', function () {
     this.populate({
       path: 'sender',
-      select: 'first_name last_name name'
+      select: 'first_name last_name name',
     });
   });
 

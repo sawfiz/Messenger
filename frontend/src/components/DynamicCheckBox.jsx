@@ -1,5 +1,6 @@
 // Libraries
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types'; // Import PropTypes
 
 // Vite handles .env differently from create-react-app
 const BASE_URL = import.meta.env.VITE_BASE_URL; // Set the base URL
@@ -49,3 +50,15 @@ export default function DynamicCheckBox({ data, list, addItem, removeItem }) {
     </div>
   );
 }
+
+// Prop Types validation
+DynamicCheckBox.propTypes = {
+  data: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    photoUrl: PropTypes.string,
+  }).isRequired,
+  list: PropTypes.array.isRequired,
+  addItem: PropTypes.func.isRequired,
+  removeItem: PropTypes.func.isRequired,
+};

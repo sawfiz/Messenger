@@ -1,12 +1,11 @@
 // Libraries
-import React, { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 
 import httpRequest from '../utils/apiServices';
 
 // Contexts
 import { AuthContext } from '../contexts/AuthContext';
 import { LayoutContext } from '../contexts/LayoutContext';
-import { useModal, InfoModal } from '../contexts/ModalContext';
 import { useNavigate } from 'react-router-dom';
 
 // Components
@@ -19,9 +18,6 @@ export default function Home() {
   const { login } = useContext(AuthContext);
   const { setShowHeader } = useContext(LayoutContext);
 
-  const { showModal, closeModal } = useModal();
-
-  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -34,7 +30,6 @@ export default function Home() {
     };
   }, [setShowHeader]); // SetShowHeader is used as a dependency to ensure useEffect runs on its change
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
@@ -42,22 +37,9 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    const response = await httpRequest('POST', '/login', formData);
-    setLoading(false);
+    try {
+      const response = await httpRequest('POST', '/login', formData);
 
-    if (response.error) {
-      // Handle error and show modal
-      showModal(
-        <InfoModal
-          show={true}
-          handleClose={closeModal}
-          title={response.error}
-          body={response.message}
-          primaryAction={closeModal}
-        />
-      );
-    } else {
       // Store logged in user as the currentUser in the AuthContext so it can be used in other components
       const currentUser = response.data.user;
       login(currentUser);
@@ -65,69 +47,69 @@ export default function Home() {
       const token = response.data.token;
       localStorage.setItem('token', token);
       navigate('/chats');
+    } catch (error) {
+      console.log('🚀 ~ file: Home.jsx:48 ~ handleSubmit ~ error:', error);
     }
   };
 
   return (
-
+    <div
+      className="flex items-center justify-center"
+      style={{
+        height: 'calc(100vh - 1.25rem)',
+        backgroundImage: 'url("../src/assets/images/chat-time.webp")',
+        backgroundSize: '250px 250px',
+        backgroundPosition: 'center',
+        // background: 'radial-gradient(circle, #ffffff 0%, #020222 100%)',
+        // background: 'linear-gradient(to bottom, #ffffff, #f20202)',
+      }}
+    >
       <div
-        className="flex items-center justify-center"
-        style={{
-          height: 'calc(100vh - 1.25rem)',
-          backgroundImage: 'url("../src/assets/images/chat-time.webp")',
-          backgroundSize: '250px 250px',
-          backgroundPosition: 'center',
-          // background: 'radial-gradient(circle, #ffffff 0%, #020222 100%)',
-          // background: 'linear-gradient(to bottom, #ffffff, #f20202)',
-        }}
+        className="rounded-lg bg-white shadow-custom"
+        style={{ maxWidth: '300px', width: '100%' }}
       >
-        <div
-          className="rounded-lg bg-white shadow-custom"
-          style={{ maxWidth: '300px', width: '100%' }}
-        >
-          <h2 className="text-center mb-4 p-2 bg-slate-700 text-white rounded-t-lg">
-            Messenger
-          </h2>
-          <Form onSubmit={handleSubmit} className="px-4">
-            <Form.Group as={Row} controlId="formUsername">
-              <Form.Label column sm="4">
-                Username:
-              </Form.Label>
-              <Col sm="8">
-                <Form.Control
-                  type="text"
-                  placeholder="Enter username"
-                  name="username"
-                  value={formData.username}
-                  onChange={handleChange}
-                />
-              </Col>
-            </Form.Group>
-            <div className="h-2"></div>
-            <Form.Group as={Row} controlId="formPassword">
-              <Form.Label column sm="4">
-                Password:
-              </Form.Label>
-              <Col sm="8">
-                <Form.Control
-                  type="password"
-                  placeholder="Enter password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                />
-              </Col>
-            </Form.Group>
-            <Button variant="primary" type="submit" className="w-100 mt-2">
-              Login
-            </Button>
-          </Form>
-          <hr></hr>
-          <p className="text-center mt-3">
-            Don't have an account? <a href="/signup">Sign Up</a>
-          </p>
-        </div>
+        <h2 className="text-center mb-4 p-2 bg-slate-700 text-white rounded-t-lg">
+          Messenger
+        </h2>
+        <Form onSubmit={handleSubmit} className="px-4">
+          <Form.Group as={Row} controlId="formUsername">
+            <Form.Label column sm="4">
+              Username:
+            </Form.Label>
+            <Col sm="8">
+              <Form.Control
+                type="text"
+                placeholder="Enter username"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+              />
+            </Col>
+          </Form.Group>
+          <div className="h-2"></div>
+          <Form.Group as={Row} controlId="formPassword">
+            <Form.Label column sm="4">
+              Password:
+            </Form.Label>
+            <Col sm="8">
+              <Form.Control
+                type="password"
+                placeholder="Enter password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+              />
+            </Col>
+          </Form.Group>
+          <Button variant="primary" type="submit" className="w-100 mt-2">
+            Login
+          </Button>
+        </Form>
+        <hr></hr>
+        <p className="text-center mt-3">
+          Don&apos;t have an account? <a href="/signup">Sign Up</a>
+        </p>
       </div>
-
+    </div>
   );
 }

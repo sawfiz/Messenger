@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
+import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-bootstrap';
 
 const ModalContext = createContext();
@@ -24,9 +25,19 @@ export const ModalProvider = ({ children }) => {
   );
 };
 
+ModalProvider.propTypes = {
+  children: PropTypes.node // Add PropTypes validation for 'children'
+};
+
 // Reusable modal component used for providing info or alter error
 // User is only provided a OK button
- export const InfoModal = ({ show, handleClose, title, body, primaryAction }) => {
+export const InfoModal = ({
+  show,
+  handleClose,
+  title,
+  body,
+  primaryAction,
+}) => {
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
@@ -42,8 +53,22 @@ export const ModalProvider = ({ children }) => {
   );
 };
 
+InfoModal.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  body: PropTypes.node.isRequired,
+  primaryAction: PropTypes.func.isRequired,
+};
+
 // Reusable modal component
- export const CustomModal = ({ show, handleClose, title, body, primaryAction  }) => {
+export const CustomModal = ({
+  show,
+  handleClose,
+  title,
+  body,
+  primaryAction,
+}) => {
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
@@ -60,6 +85,14 @@ export const ModalProvider = ({ children }) => {
       </Modal.Footer>
     </Modal>
   );
+};
+
+CustomModal.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  body: PropTypes.node.isRequired,
+  primaryAction: PropTypes.func.isRequired,
 };
 
 // Hook to access modal context and functions

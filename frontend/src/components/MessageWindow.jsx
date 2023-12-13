@@ -1,4 +1,5 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
+import PropTypes from 'prop-types'; // Import PropTypes
 
 import httpRequest from '../utils/apiServices';
 
@@ -79,3 +80,9 @@ export default function MessageWindow({ onSendMessage, chatId }) {
     </div>
   );
 }
+
+// Prop Types validation
+MessageWindow.propTypes = {
+  onSendMessage: PropTypes.func.isRequired,
+  chatId: PropTypes.string.isRequired,
+};

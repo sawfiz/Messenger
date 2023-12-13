@@ -1,6 +1,7 @@
 // Libraries
-import React, { useContext, useState, useEffect} from 'react';
+import  { useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 // Contexts
 import { AuthContext } from '../contexts/AuthContext';
@@ -15,4 +16,8 @@ export const ProtectedRoute = ({ children }) => {
   }
 
   return children ? children : <Outlet />;
+};
+
+ProtectedRoute.propTypes = {
+  children: PropTypes.node.isRequired,
 };

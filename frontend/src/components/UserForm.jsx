@@ -1,6 +1,7 @@
 // Libraries
 import { useState, useEffect, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types'; // Import PropTypes
 
 // Contexts
 import { AuthContext } from '../contexts/AuthContext';
@@ -311,6 +312,11 @@ const UserForm = ({ action }) => {
       {loading && <p>Submitting...</p>}
     </>
   );
+};
+
+// Prop Types validation
+UserForm.propTypes = {
+  action: PropTypes.oneOf(['Create', 'Update']).isRequired,
 };
 
 export default UserForm;

@@ -1,6 +1,7 @@
 // Libraries
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types'; // Import PropTypes
 
 // Components
 import DynamicButton from './DynamicButton';
@@ -150,6 +151,18 @@ const DynamicList = ({
       )}
     </div>
   );
+};
+
+// Prop Types validation
+DynamicList.propTypes = {
+  fetchDataFunction: PropTypes.func.isRequired,
+  dataKey: PropTypes.string.isRequired,
+  list: PropTypes.array,
+  addItem: PropTypes.func,
+  removeItem: PropTypes.func,
+  showButtons: PropTypes.bool,
+  showCheckboxes: PropTypes.bool,
+  showFilter: PropTypes.bool,
 };
 
 export default DynamicList;

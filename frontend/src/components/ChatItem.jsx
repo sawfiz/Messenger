@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import format from 'date-fns/format';
 import isToday from 'date-fns/isToday';
+import PropTypes from 'prop-types'; // Import PropTypes
 
 import { Card } from 'react-bootstrap';
 import { AuthContext } from '../contexts/AuthContext';
@@ -138,3 +139,23 @@ export default function ChatItem({ chat }) {
     </div>
   );
 }
+
+// Prop Types validation
+ChatItem.propTypes = {
+  chat: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    groupChat: PropTypes.bool.isRequired,
+    customName: PropTypes.bool,
+    name: PropTypes.string,
+    buddies: PropTypes.arrayOf(
+      PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        first_name: PropTypes.string.isRequired,
+        name: PropTypes.string,
+        photoUrl: PropTypes.string,
+      })
+    ),
+    photoUrl: PropTypes.string,
+    latest: PropTypes.string,
+  }).isRequired,
+};

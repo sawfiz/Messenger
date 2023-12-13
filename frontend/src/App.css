@@ -22,9 +22,6 @@
   font-family: 'Roboto', sans-serif;
 }
 
-#root {
-}
-
 main {
   height: 100vh;
   /* Padding top and bottom due to Header and Footer using fixed positions */

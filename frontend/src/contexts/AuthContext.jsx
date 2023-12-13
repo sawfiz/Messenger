@@ -1,4 +1,5 @@
-import React, { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext();
@@ -58,6 +59,10 @@ const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
+};
+
+AuthProvider.propTypes = {
+  children: PropTypes.node // Add PropTypes validation for 'children'
 };
 
 export { AuthProvider, AuthContext };

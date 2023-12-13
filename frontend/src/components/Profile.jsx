@@ -1,5 +1,3 @@
-import React, { useContext } from 'react';
-
 import UserForm from './UserForm';
 
 export default function Profile() {

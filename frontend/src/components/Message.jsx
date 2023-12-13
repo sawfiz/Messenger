@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import format from 'date-fns/format';
 import isToday from 'date-fns/isToday';
+import PropTypes from 'prop-types'; // Import PropTypes
 
 import { AuthContext } from '../contexts/AuthContext';
 
@@ -40,3 +41,16 @@ export default function Message({ message, groupChat }) {
     </div>
   );
 }
+
+// Prop Types validation
+Message.propTypes = {
+  message: PropTypes.shape({
+    date: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
+    sender: PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired
+    }),
+    text: PropTypes.string.isRequired
+  }).isRequired,
+  groupChat: PropTypes.bool.isRequired
+};
