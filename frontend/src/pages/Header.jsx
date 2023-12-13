@@ -20,7 +20,7 @@ export default function Header() {
       <CustomModal
         show={true} // Set show to true to display the modal
         handleClose={closeModal} // Pass handleClose function to close the modal
-        title="Logoutl" // Set the modal title
+        title="Logout" // Set the modal title
         body="Are you sure you want to logout?" // Set the modal body
         primaryAction={handleLogout}
       />
@@ -41,6 +41,8 @@ export default function Header() {
   };
 
   return (
+    // With fixed="top" the Navbar is taken out of the normal flow of the DOM and require
+    // custom CSS, (e.g., padding-top on the <body>) to prevent overlap with other elements.
     <Navbar collapseOnSelect fixed="top" bg="dark" expand="sm" variant="dark">
       <Container>
         <Navbar.Brand href="#">Messenger</Navbar.Brand>

@@ -14,7 +14,7 @@ import { Button, Form, Row, Col, InputGroup } from 'react-bootstrap';
 
 const UserForm = ({ action }) => {
   const { currentUser } = useContext(AuthContext);
-  console.log("🚀 ~ file: UserForm.jsx:17 ~ currentUser:", currentUser)
+  console.log('🚀 ~ file: UserForm.jsx:17 ~ currentUser:', currentUser);
   const navigate = useNavigate();
   const { logout } = useContext(AuthContext);
   const { showModal, closeModal } = useModal();
@@ -35,7 +35,7 @@ const UserForm = ({ action }) => {
 
   // If an id is provided in the route, GET data of the user
   useEffect(() => {
-    setFormData(currentUser)
+    setFormData(currentUser);
     setLoading(false);
   }, []); // Include id as it is used in the useEffect
 
@@ -120,7 +120,10 @@ const UserForm = ({ action }) => {
   const updateuser = async () => {
     // Logic for updating an existing user
     console.log('Perform PUT request:', formData);
-    console.log("🚀 ~ file: UserForm.jsx:123 ~ updateuser ~ formData:", formData)
+    console.log(
+      '🚀 ~ file: UserForm.jsx:123 ~ updateuser ~ formData:',
+      formData
+    );
     const response = await httpRequest(
       'PUT',
       `/api/users/${currentUser._id}`,
@@ -197,21 +200,8 @@ const UserForm = ({ action }) => {
   };
 
   return (
-    <div
-      className="d-flex align-items-center justify-content-center"
-      style={{
-        minHeight: '100vh',
-        backgroundImage: 'url("../src/assets/images/chat-time.webp")',
-        backgroundSize: '250px 250px',
-        backgroundPosition: 'center',
-        // background: 'radial-gradient(circle, #ffffff 0%, #020222 100%)',
-        // background: 'linear-gradient(to bottom, #ffffff, #f20202)',
-      }}
-    >
-      <div
-        className="p-4 rounded bg-white shadow"
-        style={{ maxWidth: '360px', width: '100%' }}
-      >
+    <>
+      <div className="userform p-3 rounded bg-white shadow mt-2">
         <h2 className="mb-4">{action} User</h2>
         <Form onSubmit={handleSubmit}>
           <Form.Group as={Row} controlId="formFirstname">
@@ -230,7 +220,6 @@ const UserForm = ({ action }) => {
             </Col>
           </Form.Group>
           {showValidationError('first_name')}
-
           <Form.Group as={Row} controlId="formLastname">
             <Form.Label column sm="4">
               First name:
@@ -247,7 +236,6 @@ const UserForm = ({ action }) => {
             </Col>
           </Form.Group>
           {showValidationError('last_name')}
-
           <InputGroup className="mb-2">
             <InputGroup.Text>Avatar</InputGroup.Text>
             <Form.Control
@@ -257,10 +245,8 @@ const UserForm = ({ action }) => {
               onChange={handleChange}
             />
           </InputGroup>
-
           <div>
             <hr />
-
             <Form.Group as={Row} controlId="formUsername">
               <Form.Label column sm="4">
                 Username:
@@ -277,7 +263,6 @@ const UserForm = ({ action }) => {
               </Col>
             </Form.Group>
             {showValidationError('username')}
-
             <Form.Group as={Row} controlId="formPassword1">
               <Form.Label column sm="6">
                 Password:
@@ -294,7 +279,6 @@ const UserForm = ({ action }) => {
               </Col>
             </Form.Group>
             {showValidationError('password')}
-
             <Form.Group as={Row} controlId="formPassword2">
               <Form.Label column sm="6">
                 Re-enter Password:
@@ -316,7 +300,6 @@ const UserForm = ({ action }) => {
               <p className="text-danger">Passwords do not match.</p>
             )}
           </div>
-
           <div className="flex justify-around mt-4">
             <Button variant="secondary" type="cancel" onClick={handleCancel}>
               Cancel
@@ -326,7 +309,7 @@ const UserForm = ({ action }) => {
         </Form>
       </div>
       {loading && <p>Submitting...</p>}
-    </div>
+    </>
   );
 };
 

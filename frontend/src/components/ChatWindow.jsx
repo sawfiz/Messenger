@@ -96,14 +96,22 @@ export default function ChatWindow() {
         const names = otherBuddies.map((buddy) => buddy.first_name).join(', ');
         setChatName(`Chat with ${names}`);
       }
-      setChatAvatar(chat.photoUrl ? `${BASE_URL}/${chat.photoUrl.substring(7)}` : '/images/groupchat.png' );
+      setChatAvatar(
+        chat.photoUrl
+          ? `${BASE_URL}/${chat.photoUrl.substring(7)}`
+          : '/images/groupchat.png'
+      );
     } else {
       // For one-on-one chats, display the name of the other user (buddy)
       const otherBuddy = chat.buddies.find(
         (buddy) => buddy._id !== currentUser._id
       );
       setChatName(otherBuddy ? otherBuddy.name : ''); // Return the name if found, otherwise an empty string
-      setChatAvatar(otherBuddy.photoUrl ? `${BASE_URL}/${otherBuddy.photoUrl.substring(7)}` : '/images/unknown.png' );
+      setChatAvatar(
+        otherBuddy.photoUrl
+          ? `${BASE_URL}/${otherBuddy.photoUrl.substring(7)}`
+          : '/images/unknown.png'
+      );
     }
   };
 
@@ -121,35 +129,34 @@ export default function ChatWindow() {
   return (
     <>
       {loading ? (
-        <p>Loading</p>
-      ) : (
         <main>
-          <div className="flex items-end">
+          <p>Loading</p>
+        </main>
+      ) : (
+        <main className="flex flex-col">
+          <div className="flex items-center">
             <button className="btn" onClick={handleClick}>
               ⬅
             </button>
-            <div className="w-12">
+            <div>
               <img
                 className="w-10 h-10 object-cover object-center rounded-lg"
                 src={chatAvatar}
                 alt="groupc chat"
               />
             </div>
-            <h3 className='ml-2'>{chatName}</h3>
+            <h3 className="ml-2 mb-0">{chatName}</h3>
           </div>
-          <div
-            className="flex flex-col"
-            style={{ height: 'calc(100vh - 130px' }}
-          >
+          <div className="flex-1 flex flex-col">
             <div
               ref={messageContainerRef}
               className="overflow-y-auto flex-1 p-2"
             >
               {messageList}
             </div>
-            <div className="h-2rem">
-              <MessageWindow onSendMessage={handleSendMessage} chatId={id} />
-            </div>
+          </div>
+          <div className="h-2rem">
+            <MessageWindow onSendMessage={handleSendMessage} chatId={id} />
           </div>
         </main>
       )}

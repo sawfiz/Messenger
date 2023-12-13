@@ -4,8 +4,8 @@ import UserForm from './UserForm';
 
 export default function Profile() {
   return (
-    <div>
+    <main className='flex justify-center'>
       <UserForm action={'Update'}  />
-    </div>
+    </main>
   );
 }

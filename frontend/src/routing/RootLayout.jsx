@@ -9,13 +9,13 @@ import Header from '../pages/Header';
 import { useContext } from 'react';
 
 export default function RootLayout() {
-  const {showHeader} = useContext(LayoutContext)
+  const { showHeader } = useContext(LayoutContext);
 
   return (
-    <div>
+    <>
       {showHeader && <Header />}
       <Outlet />
       <Footer />
-    </div>
+    </>
   );
 }

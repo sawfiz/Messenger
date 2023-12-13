@@ -18,12 +18,11 @@ export default function Chats() {
 
       // Filter out chats with not latest messages. Basically filter out empty chats.
       const filteredChats = response.data.chats_list.filter((chat) => chat.latest)
-      console.log("🚀 ~ file: Chats.jsx:20 ~ fetchData ~ filteredChats:", filteredChats)
+      // Sort chats based on their latest timestamps
       const sortedChats = filteredChats.slice().sort((a, b) => {
         // Sort in descending order (latest date first)
         return new Date(b.latest) - new Date(a.latest);
       });
-      console.log("🚀 ~ file: Chats.jsx:25 ~ sortedChats ~ sortedChats:", sortedChats)
 
       setData(sortedChats);
     } catch (error) {

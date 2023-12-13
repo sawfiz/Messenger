@@ -23,16 +23,14 @@
 }
 
 #root {
-  background: var(--color-background);
 }
 
 main {
-  margin-top: 56px;
+  height: 100vh;
+  /* Padding top and bottom due to Header and Footer using fixed positions */
+  padding: 3.75rem 0.25rem 1.5rem 0.25rem;
   background: var(--color-light);
-  min-height: calc(100vh - 75px);
-  padding: 0.25rem;
   position: relative;
-  /* width: clamp(var(--min-content-width), 100%, var(--max-content-width)); */
 }
 
 /* Shadown of the login form */
@@ -80,7 +78,7 @@ main {
 }
 
 .message-name {
-  margin: 0 1rem 0 0 ;
+  margin: 0 1rem 0 0;
   font-size: 14px;
   font-weight: bold;
 }
@@ -89,4 +87,9 @@ main {
   margin: 0;
   font-size: 10px;
   font-weight: light;
+}
+
+.userform {
+  max-width: 500px;
+  height: fit-content;
 }
