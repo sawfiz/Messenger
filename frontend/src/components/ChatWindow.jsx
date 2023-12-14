@@ -134,7 +134,7 @@ export default function ChatWindow() {
         </main>
       ) : (
         <main className="flex flex-col">
-          <div className="flex items-center">
+          <div className="sticky top-14 flex items-center bg-inherit p-2">
             <button className="btn" onClick={handleClick}>
               ⬅
             </button>
