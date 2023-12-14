@@ -65,8 +65,8 @@ export default function Chats() {
     }
   };
   return (
-    <div className='flex'>
-      <main className="flex">
+    <div className='flex container1'>
+      <main className="flex border border-black">
         <div className="flex flex-col">
           <div className="mt-2 mx-4 h-8 flex justify-between items-center ">
             <h1 className="my-auto">Chats</h1>

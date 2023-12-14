@@ -22,6 +22,11 @@
   font-family: 'Roboto', sans-serif;
 }
 
+/* Contaier for Chats and ChatWindow */
+.container1 {
+  height: calc(100vh)
+}
+
 main {
   min-height: 100vh;
   /* Padding top and bottom due to Header and Footer using fixed positions */
