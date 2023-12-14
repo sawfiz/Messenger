@@ -45,6 +45,8 @@ exports.message_create_post = [
   (req, res, next) => {
     console.log('POST received');
     console.log(req.body);
+    console.log(req.body);
+    console.log(req.file);
     next();
   },
   // verifyJWT,
@@ -62,6 +64,7 @@ exports.message_create_post = [
       chatId: req.body.chatId,
       text: req.body.text,
       date: req.body.date,
+      attachmentUrl: req.file ? req.file.path : null,
     });
     await message.save();
     res.status(201).json({ message: 'Success' });

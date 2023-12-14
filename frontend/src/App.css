@@ -23,7 +23,7 @@
 }
 
 main {
-  height: 100vh;
+  min-height: 100vh;
   /* Padding top and bottom due to Header and Footer using fixed positions */
   padding: 3.75rem 0.25rem 1.5rem 0.25rem;
   background: var(--color-light);

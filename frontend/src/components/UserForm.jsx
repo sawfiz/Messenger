@@ -196,7 +196,7 @@ const UserForm = ({ action }) => {
     if (action === 'Create') {
       navigate('/');
     } else {
-      navigate(`/users/${id}`);
+      navigate(`/chats`);
     }
   };
 
