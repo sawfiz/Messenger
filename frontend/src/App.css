@@ -100,17 +100,3 @@ main {
   width: auto !important;
   height: auto !important;
 }
-
-.attachment-modal .modal-body {
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.attachment-modal .modal-body img {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
-}

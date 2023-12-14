@@ -4,6 +4,7 @@ import { Modal } from 'react-bootstrap';
 export default function AttachmentModal({ show, onHide, attachmentUrl }) {
   const [modalShow, setModalShow] = useState(show);
   const [attachmentWidth, setAttachmentWidth] = useState('auto');
+  console.log("🚀 ~ file: AttachmentViewer.jsx:7 ~ AttachmentModal ~ attachmentWidth:", attachmentWidth)
   const [attachmentHeight, setAttachmentHeight] = useState('auto');
 
   useEffect(() => {
@@ -43,15 +44,18 @@ export default function AttachmentModal({ show, onHide, attachmentUrl }) {
       onHide={handleClose}
       className="attachment-modal"
       centered
-    >
-      <Modal.Body>
+      >
+      <Modal.Body
+        style={{
+          margin: '0 auto', // Center horizontally
+        }}
+      >
         <div
           style={{
             width: attachmentWidth,
             height: attachmentHeight,
             position: 'relative',
             overflow: 'hidden',
-            margin: '0 auto', // Center horizontally
           }}
           onClick={handleClose}
         >
