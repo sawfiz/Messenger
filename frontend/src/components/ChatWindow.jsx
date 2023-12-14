@@ -14,7 +14,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import MessageWindow from './MessageWindow';
 import Message from './Message';
 
-export default function ChatWindow() {
+export default function ChatWindow({chatId}) {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -34,7 +34,7 @@ export default function ChatWindow() {
   // Fetch chat info on mount
   const fetchChat = async () => {
     try {
-      const response = await httpRequest('GET', `/api/chats/${id}`);
+      const response = await httpRequest('GET', `/api/chats/${id || chatId}`);
       setChat(response.data.chat);
     } catch (error) {
       console.log(
@@ -47,7 +47,7 @@ export default function ChatWindow() {
   // Fetch messages on mount
   const fetchMessages = async () => {
     try {
-      const response = await httpRequest('GET', `/api/messages/?chatId=${id}`);
+      const response = await httpRequest('GET', `/api/messages/?chatId=${id || chatId}`);
       setMessages(response.data.messages_list);
     } catch (error) {
       console.log('🚀 ~ file: ChatWindow.jsx:10 ~ fetchData ~ error:', error);
@@ -56,13 +56,14 @@ export default function ChatWindow() {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true)
       await fetchChat();
       await fetchMessages();
       setLoading(false);
     };
 
     fetchData();
-  }, []);
+  }, [id, chatId]);
 
   // set display names after loading is done
   useEffect(() => {

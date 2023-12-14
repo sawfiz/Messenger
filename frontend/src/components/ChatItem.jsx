@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import format from 'date-fns/format';
 import isToday from 'date-fns/isToday';
 import PropTypes from 'prop-types'; // Import PropTypes
@@ -10,8 +9,7 @@ import httpRequest from '../utils/apiServices';
 // Vite handles .env differently from create-react-app
 const BASE_URL = import.meta.env.VITE_BASE_URL; // Set the base URL
 
-export default function ChatItem({ chat }) {
-  const navigate = useNavigate();
+export default function ChatItem({ chat, onClick }) {
   const { currentUser } = useContext(AuthContext);
 
   const [chatName, setChatName] = useState('');
@@ -38,10 +36,6 @@ export default function ChatItem({ chat }) {
 
     fetchLatestMessage();
   }, []);
-
-  const handleClick = () => {
-    navigate(`/chat/${chat._id}`);
-  };
 
   const displayChatName = () => {
     if (chat.groupChat) {
@@ -111,7 +105,7 @@ export default function ChatItem({ chat }) {
 
   return (
     <div className="my-2">
-      <Card onClick={handleClick} style={{ maxHeight: '6rem' }}>
+      <Card onClick={onClick} style={{ maxHeight: '6rem' }}>
         {chat && chat.name && (
           <Card.Body className="flex">
             <div className="w-12">
