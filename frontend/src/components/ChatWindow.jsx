@@ -173,5 +173,5 @@ export default function ChatWindow({ chatId }) {
 }
 
 ChatWindow.propTypes = {
-  chatId: PropTypes.string.isRequired,
+  chatId: PropTypes.string, // Making chatId optional
 };

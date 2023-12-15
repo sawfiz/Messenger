@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 export default function AttachmentModal({ show, onHide, attachmentUrl }) {
   const [modalShow, setModalShow] = useState(show);
   const [attachmentWidth, setAttachmentWidth] = useState('auto');
-  console.log("🚀 ~ file: AttachmentViewer.jsx:7 ~ AttachmentModal ~ attachmentWidth:", attachmentWidth)
   const [attachmentHeight, setAttachmentHeight] = useState('auto');
 
   useEffect(() => {
@@ -73,3 +73,9 @@ export default function AttachmentModal({ show, onHide, attachmentUrl }) {
     </Modal>
   );
 }
+
+AttachmentModal.propTypes = {
+  show: PropTypes.bool.isRequired,
+  onHide: PropTypes.func.isRequired,
+  attachmentUrl: PropTypes.string, // Make attachmentUrl optional
+};
