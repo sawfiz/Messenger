@@ -7,7 +7,7 @@ import {
 
 // Routing
 import RootLayout from './RootLayout';
-import { ProtectedRoute } from './ProtectedRoute';
+import ProtectedRoute from './ProtectedRoute';
 
 // Page components
 import Home from '../pages/Home';

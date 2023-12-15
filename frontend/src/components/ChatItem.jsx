@@ -152,4 +152,5 @@ ChatItem.propTypes = {
     photoUrl: PropTypes.string,
     latest: PropTypes.string,
   }).isRequired,
+  onClick: PropTypes.func.isRequired,
 };

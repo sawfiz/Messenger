@@ -3,6 +3,7 @@ import { useEffect, useState, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import httpRequest from '../utils/apiServices';
+import PropTypes from 'prop-types';
 
 // Vite handles .env differently from create-react-app
 const BASE_URL = import.meta.env.VITE_BASE_URL; // Set the base URL
@@ -170,3 +171,7 @@ export default function ChatWindow({ chatId }) {
     </>
   );
 }
+
+ChatWindow.propTypes = {
+  chatId: PropTypes.string.isRequired,
+};

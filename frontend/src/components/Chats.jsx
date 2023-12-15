@@ -12,16 +12,10 @@ import plusInCircle from '../assets/images/950764.png';
 export default function Chats() {
   const navigate = useNavigate();
   const isSmallScreen = useMediaQuery({ maxWidth: 768 }); // Define screen breakpoint
-  console.log(
-    '🚀 ~ file: Chats.jsx:15 ~ Chats ~ isSmallScreen:',
-    isSmallScreen
-  );
 
   const [loading, setLoading] = useState(true);
   const [chats, setChats] = useState([]);
-  console.log('🚀 ~ file: Chats.jsx:21 ~ Chats ~ chats:', chats);
   const [selectedChat, setSelectedChat] = useState(null); // Track selected chat
-  console.log('🚀 ~ file: Chats.jsx:19 ~ Chats ~ selectedChat:', selectedChat);
 
   const fetchData = async () => {
     setLoading(true);

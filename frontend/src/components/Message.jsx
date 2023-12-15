@@ -15,7 +15,6 @@ export default function Message({ message, groupChat }) {
   const fullUrl = message.attachmentUrl
     ? `${BASE_URL}/${message.attachmentUrl.substring(7)}`
     : null;
-  const [attachmentUrl, setAttachmentUrl] = useState(fullUrl);
   const [showAttachmentViewer, setShowAttachmentViewer] = useState(false);
 
   const formatDate = () => {
@@ -36,7 +35,7 @@ export default function Message({ message, groupChat }) {
     <div className="message-attachment">
       <img
         className="w-80"
-        src={attachmentUrl}
+        src={fullUrl}
         alt="Attachment"
         onClick={handleAttachmentClick}
       />
@@ -74,7 +73,7 @@ export default function Message({ message, groupChat }) {
       {showAttachmentViewer && (
         <AttachmentViewer
           show={showAttachmentViewer}
-          attachmentUrl={attachmentUrl}
+          attachmentUrl={fullUrl}
           onHide={() => setShowAttachmentViewer(false)}
         />
       )}
@@ -91,7 +90,7 @@ Message.propTypes = {
       name: PropTypes.string.isRequired,
     }),
     text: PropTypes.string.isRequired,
-    attachmentUrl: PropTypes.string.isRequired,
+    attachmentUrl: PropTypes.string, // Allow null or string
   }).isRequired,
   groupChat: PropTypes.bool.isRequired,
 };
