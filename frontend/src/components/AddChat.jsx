@@ -3,7 +3,7 @@ import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DynamicList from './DynamicList';
 import httpRequest from '../utils/apiServices';
-import { useMediaQuery } from 'react-responsive';
+import useMediaQuery from '../utils/useMediaQuery';
 
 // Contexts
 import { AuthContext } from '../contexts/AuthContext';
@@ -14,7 +14,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 export default function AddChat() {
   const navigate = useNavigate();
   const { currentUser } = useContext(AuthContext);
-  const isSmallScreen = useMediaQuery({ maxWidth: 768 }); // Define screen breakpoint
+  const isSmallScreen = useMediaQuery();
 
   const [showModal, setShowModal] = useState(false);
 

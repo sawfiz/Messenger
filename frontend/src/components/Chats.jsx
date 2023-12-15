@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useMediaQuery } from 'react-responsive';
+import useMediaQuery from '../utils/useMediaQuery';
 
 import httpRequest from '../utils/apiServices';
 
@@ -11,7 +11,7 @@ import plusInCircle from '../assets/images/950764.png';
 
 export default function Chats() {
   const navigate = useNavigate();
-  const isSmallScreen = useMediaQuery({ maxWidth: 768 }); // Define screen breakpoint
+  const isSmallScreen = useMediaQuery(); 
 
   const [loading, setLoading] = useState(true);
   const [chats, setChats] = useState([]);
