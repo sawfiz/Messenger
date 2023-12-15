@@ -17,11 +17,14 @@ export default function Chats() {
     isSmallScreen
   );
 
-  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [chats, setChats] = useState([]);
+  console.log('🚀 ~ file: Chats.jsx:21 ~ Chats ~ chats:', chats);
   const [selectedChat, setSelectedChat] = useState(null); // Track selected chat
   console.log('🚀 ~ file: Chats.jsx:19 ~ Chats ~ selectedChat:', selectedChat);
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const response = await httpRequest('GET', '/api/chats');
 
@@ -35,7 +38,8 @@ export default function Chats() {
         return new Date(b.latest) - new Date(a.latest);
       });
 
-      setData(sortedChats);
+      setChats(sortedChats);
+      setLoading(false);
     } catch (error) {
       console.log('🚀 ~ file: ChatWindow.jsx:10 ~ fetchData ~ error:', error);
     }
@@ -45,7 +49,7 @@ export default function Chats() {
     fetchData();
   }, []);
 
-  const chatList = data.map((chat) => (
+  const chatList = chats.map((chat) => (
     <ChatItem
       key={chat._id}
       chat={chat}
@@ -64,25 +68,48 @@ export default function Chats() {
       navigate(`/chat/${chat._id}`);
     }
   };
+
   return (
-    <div className='flex container1'>
-      <main className="flex border border-black">
-        <div className="flex flex-col">
-          <div className="mt-2 mx-4 h-8 flex justify-between items-center ">
-            <h1 className="my-auto">Chats</h1>
-            <button onClick={handleClick}>
-              <img src={plusInCircle} className="w-8 h-8"></img>
-            </button>
-          </div>
-          <div className="overflow-y-auto flex-1 p-2">{chatList}</div>
+    <>
+      {loading ? (
+        <main>
+          <p>Loading</p>
+        </main>
+      ) : isSmallScreen ? (
+        <div>
+          <main className="flex border border-black h-screen">
+            <div className="flex flex-col w-full">
+              <div className="mt-2 mx-4 h-12 flex justify-between items-center ">
+                <h1 className="my-auto">Chats</h1>
+                <button onClick={handleClick}>
+                  <img src={plusInCircle} className="w-8 h-8"></img>
+                </button>
+              </div>
+              <div className="overflow-y-auto flex-1 px-2">{chatList}</div>
+            </div>
+          </main>
         </div>
-      </main>
-      {/* Conditionally render ChatWindow on larger screens */}
-      {!isSmallScreen && selectedChat && (
-        <div className='flex-1'>
-          <ChatWindow chatId={selectedChat._id} />
+      ) : (
+        <div className="grid grid-cols-3">
+          <main className="col-span-1 border flex border-black h-screen">
+            <div className="flex flex-col">
+              <div className="mt-2 mx-4 h-12 flex justify-between items-center ">
+                <h1 className="my-auto">Chats</h1>
+                <button onClick={handleClick}>
+                  <img src={plusInCircle} className="w-8 h-8"></img>
+                </button>
+              </div>
+              <div className="overflow-y-auto flex-1 px-2">{chatList}</div>
+            </div>
+          </main>
+          {/* Conditionally render ChatWindow on larger screens */}
+          {selectedChat ? (
+            <ChatWindow chatId={selectedChat._id} />
+          ) : (
+            <ChatWindow chatId={chats[0]._id} />
+          )}
         </div>
       )}
-    </div>
+    </>
   );
 }

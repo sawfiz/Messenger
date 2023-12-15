@@ -14,7 +14,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import MessageWindow from './MessageWindow';
 import Message from './Message';
 
-export default function ChatWindow({chatId}) {
+export default function ChatWindow({ chatId }) {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -47,7 +47,10 @@ export default function ChatWindow({chatId}) {
   // Fetch messages on mount
   const fetchMessages = async () => {
     try {
-      const response = await httpRequest('GET', `/api/messages/?chatId=${id || chatId}`);
+      const response = await httpRequest(
+        'GET',
+        `/api/messages/?chatId=${id || chatId}`
+      );
       setMessages(response.data.messages_list);
     } catch (error) {
       console.log('🚀 ~ file: ChatWindow.jsx:10 ~ fetchData ~ error:', error);
@@ -56,7 +59,7 @@ export default function ChatWindow({chatId}) {
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true)
+      setLoading(true);
       await fetchChat();
       await fetchMessages();
       setLoading(false);
@@ -134,30 +137,33 @@ export default function ChatWindow({chatId}) {
           <p>Loading</p>
         </main>
       ) : (
-        <main className="flex flex-col">
-          <div className="sticky top-14 flex items-center bg-inherit p-2">
-            <button className="btn" onClick={handleClick}>
-              ⬅
-            </button>
-            <div>
-              <img
-                className="w-10 h-10 object-cover object-center rounded-lg"
-                src={chatAvatar}
-                alt="groupc chat"
-              />
+        <main className="col-span-2 flex h-screen">
+          <div className="flex flex-col w-full">
+            <div className="flex items-center p-2">
+              <button className="btn" onClick={handleClick}>
+                ⬅
+              </button>
+              <div>
+                <img
+                  className="w-10 h-10 object-cover object-center rounded-lg"
+                  src={chatAvatar}
+                  alt="groupc chat"
+                />
+              </div>
+              <h3 className="ml-2 mb-0">{chatName}</h3>
             </div>
-            <h3 className="ml-2 mb-0">{chatName}</h3>
-          </div>
-          <div className="flex-1 flex flex-col">
             <div
               ref={messageContainerRef}
               className="overflow-y-auto flex-1 p-2"
             >
               {messageList}
             </div>
-          </div>
-          <div className="h-2rem">
-            <MessageWindow onSendMessage={handleSendMessage} chatId={id} />
+            <div className="h-2rem">
+              <MessageWindow
+                onSendMessage={handleSendMessage}
+                chatId={id || chatId}
+              />
+            </div>
           </div>
         </main>
       )}

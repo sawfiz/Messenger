@@ -108,14 +108,14 @@ export default function ChatItem({ chat, onClick }) {
       <Card onClick={onClick} style={{ maxHeight: '6rem' }}>
         {chat && chat.name && (
           <Card.Body className="flex">
-            <div className="w-12">
+            <div className="">
               <img
                 className="w-10 h-10 object-cover object-center rounded-lg"
                 src={chatAvatar}
                 alt="groupc chat"
               />
             </div>
-            <div>
+            <div className='ml-2'>
               <div>{chatName}</div>
               <div
                 className=" text-slate-400"

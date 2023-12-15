@@ -73,7 +73,7 @@ export default function Message({ message, groupChat }) {
       {/* Conditionally render AttachmentViewer */}
       {showAttachmentViewer && (
         <AttachmentViewer
-        show={showAttachmentViewer}
+          show={showAttachmentViewer}
           attachmentUrl={attachmentUrl}
           onHide={() => setShowAttachmentViewer(false)}
         />
