@@ -3,6 +3,7 @@ import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DynamicList from './DynamicList';
 import httpRequest from '../utils/apiServices';
+import { useMediaQuery } from 'react-responsive';
 
 // Contexts
 import { AuthContext } from '../contexts/AuthContext';
@@ -13,6 +14,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 export default function AddChat() {
   const navigate = useNavigate();
   const { currentUser } = useContext(AuthContext);
+  const isSmallScreen = useMediaQuery({ maxWidth: 768 }); // Define screen breakpoint
 
   const [showModal, setShowModal] = useState(false);
 
@@ -121,7 +123,10 @@ export default function AddChat() {
       );
       const chat = response.data.message;
       const chatId = chat._id;
-      navigate(`/chat/${chatId}`);
+      const response2 = await httpRequest('PATCH', `/api/chats/${chatId}`, {
+        latest: new Date(),
+      });
+      navigate(isSmallScreen ? `/chat/${chatId}` : `/chats`);
     } catch (error) {
       console.log('🚀 ~ file: AddChat.jsx:63 ~ handleClick ~ error:', error);
     }

@@ -49,10 +49,6 @@ export default function MessageWindow({ onSendMessage, chatId }) {
       const response2 = await httpRequest('PATCH', `/api/chats/${chatId}`, {
         latest: new Date(),
       });
-      console.log(
-        '🚀 ~ file: MessageWindow.jsx:49 ~ handleSubmit ~ response2:',
-        response2
-      );
 
       onSendMessage();
       setFormData({
