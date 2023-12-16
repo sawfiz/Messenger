@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport')
 const multer = require('multer');
-const { verifyJWT } = require('../middleware/verifyJWT');
 
 const message_api_controller = require('../controllers/messageApiController');
 
-router.use(verifyJWT)
+// Protect routes using Passport JWT middleware
+const requireAuth = passport.authenticate('jwt', { session: false });
+// Use passport JWT middleware for every route of this router
+router.use(requireAuth);
 
 // Define the storage for the uploaded files
 const storage = multer.diskStorage({

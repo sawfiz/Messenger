@@ -10,7 +10,7 @@ const Chat = require('../models/chat');
 // Handle GET chats that the currentUser participates
 exports.chats_list = [
   asyncHandler(async (req, res, next) => {
-    const currentUser = res.locals.currentUser;
+    const currentUser = req.user;
     const chats_list = await Chat.find({ buddies: currentUser._id }).exec();
     res.status(200).json({ chats_list });
   }),
