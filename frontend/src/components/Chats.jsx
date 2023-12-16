@@ -1,24 +1,31 @@
-import { useEffect, useState } from 'react';
+// Libraries
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useMediaQuery from '../utils/useMediaQuery';
-
 import axiosJWT from '../utils/axiosJWT';
 
+// Contexts
 import { useModal, InfoModal } from '../contexts/ModalContext';
+import { AuthContext } from '../contexts/AuthContext';
 
+// Components
 import ChatItem from './ChatItem';
 import ChatWindow from './ChatWindow';
 
+// Styling
 import plusInCircle from '../assets/images/950764.png';
 
 export default function Chats() {
+  // Configurations
   const navigate = useNavigate();
   const isSmallScreen = useMediaQuery();
   const { showModal, closeModal } = useModal();
+  const { logout } = useContext(AuthContext);
 
+  // State Variables
   const [loading, setLoading] = useState(true);
   const [chats, setChats] = useState([]);
-  const [selectedChat, setSelectedChat] = useState(null); // Track selected chat
+  const [selectedChat, setSelectedChat] = useState(null);
 
   const fetchData = async () => {
     setLoading(true);
@@ -39,7 +46,6 @@ export default function Chats() {
       setChats(sortedChats);
       setLoading(false);
     } catch (error) {
-      console.log("🚀 ~ file: Chats.jsx:42 ~ fetchData ~ error:", error)
       displayErrorModal(error);
     }
   };
@@ -57,9 +63,14 @@ export default function Chats() {
         handleClose={closeModal}
         title={error.name}
         body={error.message}
-        primaryAction={closeModal}
+        primaryAction={() => modalPrimaryAction(error)}
       />
     );
+  };
+
+  const modalPrimaryAction = (error) => {
+    closeModal();
+    if (error.status === 403) logout();
   };
 
   const chatList = chats.map((chat) => (

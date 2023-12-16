@@ -40,6 +40,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    console.trace()
     // Remove the 'token' from localStorage
     localStorage.removeItem('token');
     setCurrentUser(null);

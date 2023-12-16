@@ -43,7 +43,6 @@ export default function Home() {
     try {
       // const response = await httpRequest('POST', '/login', formData);
       const response = await axiosPublic.post('/login', formData);
-      console.log("🚀 ~ file: Home.jsx:44 ~ handleSubmit ~ response:", response)
 
       // Store logged in user as the currentUser in the AuthContext so it can be used in other components
       const currentUser = response.data.user;
