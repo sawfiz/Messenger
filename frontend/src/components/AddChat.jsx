@@ -1,12 +1,14 @@
 // Library
 import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DynamicList from './DynamicList';
-import httpRequest from '../utils/apiServices';
 import useMediaQuery from '../utils/useMediaQuery';
+import axiosJWT from '../utils/axiosJWT';
 
 // Contexts
 import { AuthContext } from '../contexts/AuthContext';
+
+// Components
+import DynamicList from './DynamicList';
 
 // Styling
 import { Modal, Button, Form } from 'react-bootstrap';
@@ -52,7 +54,6 @@ export default function AddChat() {
       const firstNames = formData.buddies
         // .slice(1)
         .map((buddy) => buddy.first_name);
-      // .map((buddy) => buddy.name.split(' ')[0]); // Extracting first names except the first buddy
       const groupName = `Chat: ${firstNames.join(', ')}`;
       setFormData((prevData) => ({
         ...prevData,
@@ -112,8 +113,7 @@ export default function AddChat() {
 
   const handleSave = async () => {
     try {
-      const response = await httpRequest(
-        'POST',
+      const response = await axiosJWT.post(
         '/api/chats',
         convertToFormData('buddies')
       );
@@ -123,7 +123,7 @@ export default function AddChat() {
       );
       const chat = response.data.message;
       const chatId = chat._id;
-      const response2 = await httpRequest('PATCH', `/api/chats/${chatId}`, {
+      const response2 = await axiosJWT.patch(`/api/chats/${chatId}`, {
         latest: new Date(),
       });
       navigate(isSmallScreen ? `/chat/${chatId}` : `/chats`);
@@ -151,7 +151,7 @@ export default function AddChat() {
       <h1 className="m-3">New chat</h1>
       <div className="m-3">
         <DynamicList
-          fetchDataFunction={() => httpRequest('GET', '/api/users')}
+          fetchDataFunction={() => axiosJWT.get('/api/users')}
           dataKey="users"
           list={formData.buddies}
           addItem={addBuddy}

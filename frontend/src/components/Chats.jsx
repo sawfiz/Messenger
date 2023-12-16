@@ -30,7 +30,6 @@ export default function Chats() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      // const response = await httpRequest('GET', '/api/chats');
       const response = await axiosJWT.get('/api/chats');
 
       // Filter out chats with not latest messages. Basically filter out empty chats.

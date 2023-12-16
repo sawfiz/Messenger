@@ -1,7 +1,6 @@
 // Libraries
 import { useState, useContext, useEffect } from 'react';
 
-// import httpRequest from '../utils/apiServices'
 import axiosPublic from '../utils/axiosPublic';
 
 // Contexts
@@ -41,7 +40,6 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // const response = await httpRequest('POST', '/login', formData);
       const response = await axiosPublic.post('/login', formData);
 
       // Store logged in user as the currentUser in the AuthContext so it can be used in other components

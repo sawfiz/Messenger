@@ -8,7 +8,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import { useModal, InfoModal } from '../contexts/ModalContext';
 
 // Utilities
-import httpRequest from '../utils/apiServices';
+import axiosJWT from '../utils/axiosJWT';
 
 // Styling
 import { Button, Form, Row, Col, InputGroup } from 'react-bootstrap';
@@ -56,7 +56,7 @@ const UserForm = ({ action }) => {
 
   // Logout if token expired
   const handleLogout = async () => {
-    await httpRequest('POST', '/logout');
+    await axiosJWT.post('/logout');
     closeModal();
     logout();
     navigate('/login');
@@ -104,8 +104,7 @@ const UserForm = ({ action }) => {
   const createuser = async () => {
     // Logic for creating a new user
     console.log('Perform POST request:', formData);
-    const response = await httpRequest(
-      'POST',
+    const response = await axiosJWT.post(
       '/api/users',
       convertToFormData()
     );
@@ -125,8 +124,7 @@ const UserForm = ({ action }) => {
       '🚀 ~ file: UserForm.jsx:123 ~ updateuser ~ formData:',
       formData
     );
-    const response = await httpRequest(
-      'PUT',
+    const response = await axiosJWT(
       `/api/users/${currentUser._id}`,
       convertToFormData()
     );

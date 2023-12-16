@@ -12,11 +12,11 @@ import { AuthContext } from '../contexts/AuthContext';
 import { useModal, InfoModal } from '../contexts/ModalContext';
 
 // Utilities
-import httpRequest from '../utils/apiServices';
+import InputGroup from 'react-bootstrap/InputGroup';
 
+import axiosJWT from '../utils/axiosJWT';
 // Styling
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 
 const DynamicList = ({
   fetchDataFunction,
@@ -71,7 +71,7 @@ const DynamicList = ({
 
   // Logout if token expired
   const handleLogout = async () => {
-    await httpRequest('POST', '/logout');
+    await axiosJWT.post('/logout');
     closeModal();
     logout();
     navigate('/login');

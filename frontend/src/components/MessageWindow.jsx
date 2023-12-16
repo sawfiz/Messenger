@@ -1,7 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types'; // Import PropTypes
-
-import httpRequest from '../utils/apiServices';
+import axiosJWT from '../utils/axiosJWT';
 
 // Components
 import FileUploadModal from './FileUploadModal';
@@ -38,15 +37,14 @@ export default function MessageWindow({ onSendMessage, chatId }) {
 
   const handleSave = async () => {
     try {
-      const response = await httpRequest(
-        'POST',
+      const response = await axiosJWT.post(
         '/api/messages',
         convertToFormData()
       );
 
       console.log('Message sent successfully:', response);
 
-      const response2 = await httpRequest('PATCH', `/api/chats/${chatId}`, {
+      const response2 = await axiosJWT.patch(`/api/chats/${chatId}`, {
         latest: new Date(),
       });
 

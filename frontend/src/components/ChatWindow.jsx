@@ -2,7 +2,6 @@
 import { useEffect, useState, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import httpRequest from '../utils/apiServices';
 import PropTypes from 'prop-types';
 
 // Vite handles .env differently from create-react-app
@@ -14,6 +13,7 @@ import { AuthContext } from '../contexts/AuthContext';
 // Components
 import MessageWindow from './MessageWindow';
 import Message from './Message';
+import axiosJWT from '../utils/axiosJWT';
 
 export default function ChatWindow({ chatId }) {
   const { id } = useParams();
@@ -35,7 +35,7 @@ export default function ChatWindow({ chatId }) {
   // Fetch chat info on mount
   const fetchChat = async () => {
     try {
-      const response = await httpRequest('GET', `/api/chats/${id || chatId}`);
+      const response = await axiosJWT.get(`/api/chats/${id || chatId}`);
       setChat(response.data.chat);
     } catch (error) {
       console.log(
@@ -48,8 +48,7 @@ export default function ChatWindow({ chatId }) {
   // Fetch messages on mount
   const fetchMessages = async () => {
     try {
-      const response = await httpRequest(
-        'GET',
+      const response = await axiosJWT.get(
         `/api/messages/?chatId=${id || chatId}`
       );
       setMessages(response.data.messages_list);

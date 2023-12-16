@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import httpRequest from '../utils/apiServices';
+import axiosJWT from '../utils/axiosJWT';
 
 // Contexts
 import { AuthContext } from '../contexts/AuthContext';
@@ -30,7 +30,7 @@ export default function Header() {
 
   const handleLogout = async () => {
     try {
-      const result = await httpRequest('POST', '/logout');
+      const result = await axiosJWT.post('/logout');;
       console.log('🚀 ~ file: Header.jsx:33 ~ handleLogout ~ result:', result);
       logout();
       closeModal(); // Close the modal on button click

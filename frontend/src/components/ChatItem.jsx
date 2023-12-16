@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'; // Import PropTypes
 
 import { Card } from 'react-bootstrap';
 import { AuthContext } from '../contexts/AuthContext';
-import httpRequest from '../utils/apiServices';
-// Vite handles .env differently from create-react-app
+import axiosJWT from '../utils/axiosJWT';
+
 const BASE_URL = import.meta.env.VITE_BASE_URL; // Set the base URL
 
 export default function ChatItem({ chat, onClick }) {
@@ -21,8 +21,7 @@ export default function ChatItem({ chat, onClick }) {
   useEffect(() => {
     const fetchLatestMessage = async () => {
       try {
-        const response = await httpRequest(
-          'GET',
+        const response = await axiosJWT.get(
           `/api/messages/latest?chatId=${chat._id}`
         );
         setLatestMessage(response.data.messages_list[0]);
