@@ -30,7 +30,6 @@ axiosJWT.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log('🚀 ~ file: axiosJWT.jsx:21 ~ error:', error);
     let customError = {
       status: error.response ? error.response.status : 500,
       name: error.name,

@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-// Vite handles .env differently from create-react-app
 const BASE_URL = import.meta.env.VITE_BASE_URL; // Set the base URL
 
 // Contexts
 import { AuthContext } from '../contexts/AuthContext';
+import { useModal, InfoModal } from '../contexts/ModalContext';
 
 // Components
 import MessageWindow from './MessageWindow';
@@ -18,6 +18,8 @@ import axiosJWT from '../utils/axiosJWT';
 export default function ChatWindow({ chatId }) {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { showModal, closeModal } = useModal();
+  const { logout } = useContext(AuthContext);
 
   // Reference to the container element, to auto scroll to bottom of chat
   const messageContainerRef = useRef(null);
@@ -38,10 +40,7 @@ export default function ChatWindow({ chatId }) {
       const response = await axiosJWT.get(`/api/chats/${id || chatId}`);
       setChat(response.data.chat);
     } catch (error) {
-      console.log(
-        '🚀 ~ file: ChatWindow.jsx:37 ~ fetchMessages ~ error:',
-        error
-      );
+      displayErrorModal(error);
     }
   };
 
@@ -53,7 +52,7 @@ export default function ChatWindow({ chatId }) {
       );
       setMessages(response.data.messages_list);
     } catch (error) {
-      console.log('🚀 ~ file: ChatWindow.jsx:10 ~ fetchData ~ error:', error);
+      displayErrorModal(error);
     }
   };
 
@@ -67,6 +66,25 @@ export default function ChatWindow({ chatId }) {
 
     fetchData();
   }, [id, chatId]);
+
+  // Display error modal
+  const displayErrorModal = (error) => {
+    // Display the model. If error is token timed out, click on button logs the user out.
+    showModal(
+      <InfoModal
+        show={true}
+        handleClose={closeModal}
+        title={error.name}
+        body={error.message}
+        primaryAction={() => modalPrimaryAction(error)}
+      />
+    );
+  };
+
+  const modalPrimaryAction = (error) => {
+    closeModal();
+    if (error.status === 403) logout();
+  };
 
   // set display names after loading is done
   useEffect(() => {
@@ -89,33 +107,37 @@ export default function ChatWindow({ chatId }) {
 
   // Decide the name of the chat, depending on 1-on-1 or group chat
   const setChatTitle = () => {
-    if (chat.groupChat) {
-      if (chat.customName) {
-        setChatName(chat.name);
+    if (!loading) {
+      if (chat.groupChat) {
+        if (chat.customName) {
+          setChatName(chat.name);
+        } else {
+          // For group chats, display "Chat with" and names of buddies (excluding currentUser)
+          const otherBuddies = chat.buddies.filter(
+            (buddy) => buddy._id !== currentUser._id
+          );
+          const names = otherBuddies
+            .map((buddy) => buddy.first_name)
+            .join(', ');
+          setChatName(`Chat with ${names}`);
+        }
+        setChatAvatar(
+          chat.photoUrl
+            ? `${BASE_URL}/${chat.photoUrl.substring(7)}`
+            : '/images/groupchat.png'
+        );
       } else {
-        // For group chats, display "Chat with" and names of buddies (excluding currentUser)
-        const otherBuddies = chat.buddies.filter(
+        // For one-on-one chats, display the name of the other user (buddy)
+        const otherBuddy = chat.buddies.find(
           (buddy) => buddy._id !== currentUser._id
         );
-        const names = otherBuddies.map((buddy) => buddy.first_name).join(', ');
-        setChatName(`Chat with ${names}`);
+        setChatName(otherBuddy ? otherBuddy.name : ''); // Return the name if found, otherwise an empty string
+        setChatAvatar(
+          otherBuddy.photoUrl
+            ? `${BASE_URL}/${otherBuddy.photoUrl.substring(7)}`
+            : '/images/unknown.png'
+        );
       }
-      setChatAvatar(
-        chat.photoUrl
-          ? `${BASE_URL}/${chat.photoUrl.substring(7)}`
-          : '/images/groupchat.png'
-      );
-    } else {
-      // For one-on-one chats, display the name of the other user (buddy)
-      const otherBuddy = chat.buddies.find(
-        (buddy) => buddy._id !== currentUser._id
-      );
-      setChatName(otherBuddy ? otherBuddy.name : ''); // Return the name if found, otherwise an empty string
-      setChatAvatar(
-        otherBuddy.photoUrl
-          ? `${BASE_URL}/${otherBuddy.photoUrl.substring(7)}`
-          : '/images/unknown.png'
-      );
     }
   };
 
