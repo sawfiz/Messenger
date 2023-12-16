@@ -62,6 +62,7 @@ InfoModal.propTypes = {
 };
 
 // Reusable modal component
+// User is provided Confirm and Close Buttons
 export const CustomModal = ({
   show,
   handleClose,
@@ -88,6 +89,41 @@ export const CustomModal = ({
 };
 
 CustomModal.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  body: PropTypes.node.isRequired,
+  primaryAction: PropTypes.func.isRequired,
+};
+
+// Reusable modal component
+// User is provided Confirm and Close Buttons
+export const ConfirmModal = ({
+  show,
+  handleClose,
+  title,
+  body,
+  primaryAction,
+}) => {
+  return (
+    <Modal show={show} onHide={handleClose} centered>
+      <Modal.Header closeButton>
+        <Modal.Title>{title}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>{body}</Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}>
+          Close
+        </Button>
+        <Button variant="primary" onClick={primaryAction}>
+          Confirm
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+};
+
+ConfirmModal.propTypes = {
   show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,

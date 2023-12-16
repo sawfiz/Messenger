@@ -1,12 +1,14 @@
 // Libraries
 import { useState, useContext, useEffect } from 'react';
 
-import httpRequest from '../utils/apiServices';
+// import httpRequest from '../utils/apiServices'
+import axiosPublic from '../utils/axiosPublic';
 
 // Contexts
 import { AuthContext } from '../contexts/AuthContext';
 import { LayoutContext } from '../contexts/LayoutContext';
 import { useNavigate } from 'react-router-dom';
+import { useModal, InfoModal } from '../contexts/ModalContext';
 
 // Components
 
@@ -17,6 +19,7 @@ export default function Home() {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
   const { setShowHeader } = useContext(LayoutContext);
+  const { showModal, closeModal } = useModal();
 
   const [formData, setFormData] = useState({
     username: '',
@@ -38,7 +41,9 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await httpRequest('POST', '/login', formData);
+      // const response = await httpRequest('POST', '/login', formData);
+      const response = await axiosPublic.post('/login', formData);
+      console.log("🚀 ~ file: Home.jsx:44 ~ handleSubmit ~ response:", response)
 
       // Store logged in user as the currentUser in the AuthContext so it can be used in other components
       const currentUser = response.data.user;
@@ -48,9 +53,24 @@ export default function Home() {
       localStorage.setItem('token', token);
       navigate('/chats');
     } catch (error) {
-      console.log('🚀 ~ file: Home.jsx:48 ~ handleSubmit ~ error:', error);
+      console.log('🚀 ~ file: Home.jsx:53 ~ error:', error);
+      displayErrorModal(error)
     }
   };
+
+    // Display error modal
+    const displayErrorModal = (error) => {
+      // Display the model. If error is token timed out, click on button logs the user out.
+      showModal(
+        <InfoModal
+          show={true}
+          handleClose={closeModal}
+          title={error.name}
+          body={error.message}
+          primaryAction={closeModal}
+        />
+      );
+    };
 
   return (
     <div

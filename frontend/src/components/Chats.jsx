@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useMediaQuery from '../utils/useMediaQuery';
 
-import httpRequest from '../utils/apiServices';
+import axiosJWT from '../utils/axiosJWT';
+
+import { useModal, InfoModal } from '../contexts/ModalContext';
 
 import ChatItem from './ChatItem';
 import ChatWindow from './ChatWindow';
@@ -11,7 +13,8 @@ import plusInCircle from '../assets/images/950764.png';
 
 export default function Chats() {
   const navigate = useNavigate();
-  const isSmallScreen = useMediaQuery(); 
+  const isSmallScreen = useMediaQuery();
+  const { showModal, closeModal } = useModal();
 
   const [loading, setLoading] = useState(true);
   const [chats, setChats] = useState([]);
@@ -20,7 +23,8 @@ export default function Chats() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await httpRequest('GET', '/api/chats');
+      // const response = await httpRequest('GET', '/api/chats');
+      const response = await axiosJWT.get('/api/chats');
 
       // Filter out chats with not latest messages. Basically filter out empty chats.
       const filteredChats = response.data.chats_list.filter(
@@ -35,13 +39,28 @@ export default function Chats() {
       setChats(sortedChats);
       setLoading(false);
     } catch (error) {
-      console.log('🚀 ~ file: ChatWindow.jsx:10 ~ fetchData ~ error:', error);
+      console.log("🚀 ~ file: Chats.jsx:42 ~ fetchData ~ error:", error)
+      displayErrorModal(error);
     }
   };
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  // Display error modal
+  const displayErrorModal = (error) => {
+    // Display the model. If error is token timed out, click on button logs the user out.
+    showModal(
+      <InfoModal
+        show={true}
+        handleClose={closeModal}
+        title={error.name}
+        body={error.message}
+        primaryAction={closeModal}
+      />
+    );
+  };
 
   const chatList = chats.map((chat) => (
     <ChatItem
@@ -66,7 +85,7 @@ export default function Chats() {
   return (
     <>
       {loading ? (
-        <main>
+        <main className="h-screen">
           <p>Loading</p>
         </main>
       ) : isSmallScreen ? (

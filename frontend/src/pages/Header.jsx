@@ -7,7 +7,7 @@ import httpRequest from '../utils/apiServices';
 
 // Contexts
 import { AuthContext } from '../contexts/AuthContext';
-import { useModal, CustomModal } from '../contexts/ModalContext';
+import { useModal, ConfirmModal } from '../contexts/ModalContext';
 
 export default function Header() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export default function Header() {
   const handleShowModal = () => {
     // Create a function to show the modal
     const modalContent = (
-      <CustomModal
+      <ConfirmModal
         show={true} // Set show to true to display the modal
         handleClose={closeModal} // Pass handleClose function to close the modal
         title="Logout" // Set the modal title
