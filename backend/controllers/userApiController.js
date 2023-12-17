@@ -3,7 +3,6 @@ const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
 
 const validateObjectId = require('../middleware/validateObjectId');
-const { verifyJWT } = require('../middleware/verifyJWT');
 const CustomError = require('../utils/CustomError');
 
 // Seurity
@@ -57,7 +56,6 @@ const validateInputs = () => {
 
 // Handle GET all users.
 exports.users_list = [
-  verifyJWT,
   asyncHandler(async (req, res, next) => {
     const users_list = await User.find({}, '').sort({ username: 1 }).exec();
     res.status(200).json({ users_list });
@@ -66,7 +64,6 @@ exports.users_list = [
 
 // Handle GET details of a specific user.
 exports.user_detail = [
-  verifyJWT,
   validateObjectId,
   asyncHandler(async (req, res, next) => {
     const [user] = await User.findById(req.params.id).exec();
@@ -119,7 +116,6 @@ exports.user_create_post = [
 
 exports.user_update = [
   validateObjectId,
-  verifyJWT,
   validateInputs(),
   asyncHandler(async (req, res, next) => {
     console.log('Validated');
@@ -164,7 +160,6 @@ exports.user_update = [
 
 // Handle DELETE an user
 exports.user_delete = [
-  verifyJWT,
   (req, res, next) => {
     console.log('DELETE received');
     next();
